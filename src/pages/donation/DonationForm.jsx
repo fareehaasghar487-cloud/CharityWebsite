@@ -13,7 +13,7 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import { AiOutlineFileProtect } from "react-icons/ai";
 import toast from "react-hot-toast";
 
-const DonationForm = () => {
+export default function DonationForm() {
   const navigate = useNavigate();
 
   // ✅ FIXED INITIAL STATE (same as first code)
@@ -379,4 +379,3 @@ const DonationForm = () => {
   );
 };
 
-export default DonationForm;

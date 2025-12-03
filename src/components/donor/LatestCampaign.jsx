@@ -54,7 +54,7 @@ const compainAry = [
   },
 ];
 
-const Campaign = () => {
+export default function LatestCampaign() {
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -119,4 +119,4 @@ const Campaign = () => {
   );
 };
 
-export default Campaign;
+

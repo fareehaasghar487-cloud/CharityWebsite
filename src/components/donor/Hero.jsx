@@ -33,7 +33,7 @@ const SlideAry = [
   },
 ];
 
-const Hero = () => {
+export default function  Hero() {
   useEffect(() => {
     AOS.init({
       duration: 2000,
@@ -168,4 +168,4 @@ const Hero = () => {
   );
 };
 
-export default Hero;
+

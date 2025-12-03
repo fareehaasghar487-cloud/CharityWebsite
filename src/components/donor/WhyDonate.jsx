@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-const WhyDonate = () => {
+export default function WhyDonate() {
   useEffect(() => {
     AOS.init({
       duration: 100,
@@ -109,4 +109,3 @@ const WhyDonate = () => {
   );
 };
 
-export default WhyDonate;

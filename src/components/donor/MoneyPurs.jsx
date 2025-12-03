@@ -11,7 +11,7 @@ import {
   FiVideo
 } from "react-icons/fi";
 
-const MoneyPurs = () => {
+export default function MoneyPurs(){
   const steps = [
     {
       id: 1,
@@ -132,4 +132,3 @@ const MoneyPurs = () => {
   );
 };
 
-export default MoneyPurs;

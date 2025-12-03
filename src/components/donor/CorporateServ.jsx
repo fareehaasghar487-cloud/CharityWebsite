@@ -3,7 +3,7 @@ import { FaBuilding, FaHandshake, FaChartLine } from "react-icons/fa";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-const Corporate = () => {
+export default function  CorporateServ(){
   useEffect(() => {
     AOS.init({
       duration: 2000,
@@ -96,4 +96,4 @@ const Corporate = () => {
   );
 };
 
-export default Corporate;
+

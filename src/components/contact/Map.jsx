@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-const Map = () => {
+export default function  Map() {
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
@@ -78,4 +78,4 @@ const Map = () => {
   );
 };
 
-export default Map;
+

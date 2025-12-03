@@ -76,7 +76,7 @@ const Navbar = () => {
                 Campaigns
               </Link>
               <Link
-                to="/who-we-are"
+                to="/about"
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 ${
                   isScrolled
                     ? "text-black hover:text-[palegreen]"
@@ -88,6 +88,7 @@ const Navbar = () => {
 
               {/* Donor Dropdown */}
               <div className="relative group">
+              <Link to='/donor'>
                 <span
                   className={`px-3 py-2 rounded-md text-sm font-medium cursor-pointer ${
                     isScrolled
@@ -97,6 +98,7 @@ const Navbar = () => {
                 >
                   Donor
                 </span>
+              </Link>
                 <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-all duration-300">
 
                 </div>
@@ -104,6 +106,7 @@ const Navbar = () => {
 
               {/* Contact Dropdown */}
               <div className="relative group">
+            <Link to="/contact">
                 <span
                   className={`px-3 py-2 rounded-md text-sm font-medium cursor-pointer ${
                     isScrolled
@@ -112,7 +115,7 @@ const Navbar = () => {
                   }`}
                 >
                   Contact
-                </span>
+                </span></Link>
                 <div className="absolute left-0 mt-2 w-40 bg-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-all duration-300">
   
                 </div>
@@ -133,7 +136,7 @@ const Navbar = () => {
               Log in
             </Link>
             <Link
-              to="/donationform"
+              to="/makedonation"
               className="px-4 py-2 bg-gradient-to-r from-[palegreen] to-[palegreen] text-black text-sm font-medium rounded-md shadow-md hover:opacity-90 transition-opacity duration-300"
             >
               Donate Now

@@ -33,7 +33,7 @@ const PaAry = [
   },
 ];
 
-const PayOption = () => {
+export default function  PayOptione(){
   useEffect(() => {
     AOS.init({
       duration: 100,
@@ -81,4 +81,4 @@ const PayOption = () => {
   );
 };
 
-export default PayOption;
+

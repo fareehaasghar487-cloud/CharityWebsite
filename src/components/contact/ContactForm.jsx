@@ -16,7 +16,7 @@ import { toast } from "react-hot-toast";import {
   FaHeading,
 } from "react-icons/fa";
 
-const ContactForm = () => {
+export default function ContactForm() {
   const form = useRef();
   const [isloading, setisloading] = useState(false);
 
@@ -265,4 +265,3 @@ const ContactForm = () => {
   );
 };
 
-export default ContactForm;

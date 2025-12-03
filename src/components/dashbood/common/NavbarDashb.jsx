@@ -1,16 +1,16 @@
 import React from "react";
 import { FaBell } from "react-icons/fa";
 
-const DonorNav = () => {
+const NavbarDashb = () => {
   return (
     <div className="flex justify-between items-center bg-green-50 shadow-md px-6 py-4 rounded-xl">
       {/* 🔍 Search Bar */}
       <div className="flex items-center w-full max-w-sm">
         <input
           type="text"
-          placeholder="Search campaigns..."
+          placeholder="Search"
           className="w-full px-4 py-2 border border-green-200 rounded-full 
-          focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-green-400 
+          focus:outline-none focus:ring-2 mr-3 focus:ring-green-300 focus:border-green-400 
           transition duration-200 bg-white placeholder-green-600 text-green-800"
         />
       </div>
@@ -33,4 +33,4 @@ const DonorNav = () => {
   );
 };
 
-export default DonorNav;
+export default NavbarDashb;
