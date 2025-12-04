@@ -33,12 +33,9 @@ const SlideAry = [
   },
 ];
 
-export default function  Hero() {
+export default function Hero() {
   useEffect(() => {
-    AOS.init({
-      duration: 2000,
-      once: true,
-    });
+    AOS.init({ duration: 2000, once: true });
   }, []);
 
   return (
@@ -63,18 +60,18 @@ export default function  Hero() {
               style={{ backgroundImage: `url(${item.bgimg})` }}
             >
               {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-r from-[palegreen]/40 to-[palegreen]/60"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-[#543D2E]/40 to-[#740e2d]/50"></div>
 
               {/* Animated circles decoration */}
-              <div className="absolute top-1/4 left-1/4 w-20 h-20 rounded-full bg-[palegreen]/30 animate-pulse"></div>
-              <div className="absolute bottom-1/3 right-1/4 w-16 h-16 rounded-full bg-[palegreen]/20 animate-pulse delay-1000"></div>
-              <div className="absolute top-1/3 right-1/3 w-12 h-12 rounded-full bg-[palegreen]/40 animate-pulse delay-500"></div>
+              <div className="absolute top-1/4 left-1/4 w-20 h-20 rounded-full bg-[#821435]/30 animate-pulse"></div>
+              <div className="absolute bottom-1/3 right-1/4 w-16 h-16 rounded-full bg-[#a01b40]/20 animate-pulse delay-1000"></div>
+              <div className="absolute top-1/3 right-1/3 w-12 h-12 rounded-full bg-[#740e2d]/40 animate-pulse delay-500"></div>
 
               {/* Content */}
               <div className="relative z-10 text-center px-6 text-white max-w-4xl">
                 <div
                   data-aos="fade-down"
-                  className="inline-flex mt-20 items-center justify-center px-4 py-2 mb-6 bg-[palegreen]/30 backdrop-blur-sm rounded-full"
+                  className="inline-flex mt-20 items-center justify-center px-4 py-2 mb-6 bg-[#543D2E]/30 backdrop-blur-sm rounded-full"
                 >
                   <FiHeart className="mr-2 text-white" />
                   <span className="text-sm font-semibold">Making a Difference</span>
@@ -103,13 +100,12 @@ export default function  Hero() {
                   <Link to="/donate">
                     <button
                       data-aos="fade-right"
-                      className="group relative p-3 sm:px-8 sm:py-4 bg-[palegreen] hover:bg-green-400 transition-all duration-300 rounded-xl shadow-lg sm:text-xl font-semibold flex items-center overflow-hidden text-green-900"
+                      className="group relative p-3 sm:px-8 sm:py-4 bg-gradient-to-r from-[#740e2d] via-[#821435] to-[#a01b40] hover:from-[#821435] hover:via-[#a01b40] hover:to-[#a01b40] transition-all duration-300 rounded-xl shadow-lg sm:text-xl font-semibold flex items-center overflow-hidden text-white"
                     >
                       <span className="relative z-10 flex items-center">
                         Donate Now
                         <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                       </span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-[palegreen] to-green-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </button>
                   </Link>
 
@@ -146,7 +142,7 @@ export default function  Hero() {
         }
         .custom-bullet-active {
           width: 30px;
-          background: palegreen;
+          background: #740e2d;
           border-radius: 10px;
         }
         @keyframes fadeInUp {
@@ -166,6 +162,4 @@ export default function  Hero() {
       `}</style>
     </div>
   );
-};
-
-
+}

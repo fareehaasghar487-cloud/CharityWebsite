@@ -46,13 +46,12 @@ const HeroSection = () => {
 
   return (
     <section className="relative h-screen w-full overflow-hidden">
-      {/* Slides with Background Images */}
+      {/* Slides */}
       {slides.map((slide, index) => (
         <div
           key={index}
-          className={`absolute inset-0 transition-opacity duration-1000 flex items-center justify-center px-6 ${
-            index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
-          }`}
+          className={`absolute inset-0 transition-opacity duration-1000 flex items-center justify-center px-6 ${index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
+            }`}
         >
           <div
             className="absolute inset-0 bg-cover bg-center"
@@ -66,13 +65,18 @@ const HeroSection = () => {
             <h2 className="text-4xl md:text-5xl font-extrabold mb-4">
               {slide.title}
             </h2>
-            <p className="text-lg md:text-xl mb-8 opacity-90">{slide.description}</p>
 
+            <p className="text-lg md:text-xl mb-8 opacity-90">
+              {slide.description}
+            </p>
+
+            {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row justify-center gap-4 mb-6">
-              <button className="px-8 py-3 bg-gradient-to-r from-[#680808] via-[#9e0909] to-[#680808] text-white font-semibold rounded-lg shadow-lg hover:bg-indigo-700 transition duration-300">
+              <button className="px-8 py-3 bg-gradient-to-r from-[#821435] via-[#a72145] to-[#821435] text-white font-semibold rounded-lg shadow-lg hover:opacity-90 transition duration-300">
                 {slide.ctaPrimary}
               </button>
-              <button className="px-8 py-3 border-2 border-white text-white rounded-lg hover:bg-white/20 transition duration-300">
+
+              <button className="px-8 py-3 border-2 border-[#821435] text-white rounded-lg hover:bg-[#821435]/30 transition duration-300">
                 {slide.ctaSecondary}
               </button>
             </div>
@@ -102,13 +106,13 @@ const HeroSection = () => {
         </div>
       ))}
 
-      {/* Navigation */}
+      {/* Prev Button */}
       <button
         onClick={goToPrevSlide}
-        className="absolute left-6 top-1/2 -translate-y-1/2 bg-white shadow-md p-3 rounded-full hover:scale-110 transition z-20"
+        className="absolute left-6 top-1/2 -translate-y-1/2 bg-[#821435] text-white shadow-md p-3 rounded-full hover:scale-110 transition z-20"
       >
         <svg
-          className="w-5 h-5 text-gray-900"
+          className="w-5 h-5"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -117,12 +121,13 @@ const HeroSection = () => {
         </svg>
       </button>
 
+      {/* Next Button */}
       <button
         onClick={goToNextSlide}
-        className="absolute right-6 top-1/2 -translate-y-1/2 bg-white shadow-md p-3 rounded-full hover:scale-110 transition z-20"
+        className="absolute right-6 top-1/2 -translate-y-1/2 bg-[#821435] text-white shadow-md p-3 rounded-full hover:scale-110 transition z-20"
       >
         <svg
-          className="w-5 h-5 text-gray-900"
+          className="w-5 h-5"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -137,9 +142,8 @@ const HeroSection = () => {
           <button
             key={idx}
             onClick={() => goToSlide(idx)}
-            className={`w-3 h-3 rounded-full transition-all ${
-              idx === currentSlide ? "bg-white scale-125" : "bg-white/50"
-            }`}
+            className={`w-3 h-3 rounded-full transition-all ${idx === currentSlide ? "bg-[#821435] scale-125" : "bg-white/50"
+              }`}
           />
         ))}
       </div>

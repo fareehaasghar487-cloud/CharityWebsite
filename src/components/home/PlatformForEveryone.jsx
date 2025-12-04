@@ -31,7 +31,7 @@ const PlatformForEveryone = () => {
         "Choose from health, education, relief campaigns",
       ],
       cta: "Start Donating",
-      accentColor: "#680808", // dark red
+      accentColor: "#821435",
     },
     {
       role: "Charities",
@@ -63,7 +63,7 @@ const PlatformForEveryone = () => {
         "Generate automated reports for RACA compliance",
       ],
       cta: "Register Your Charity",
-      accentColor: "#9e0909", // dark red variant
+      accentColor: "#821435",
     },
     {
       role: "Authority (RACA)",
@@ -97,7 +97,7 @@ const PlatformForEveryone = () => {
         "Track performance through KPI dashboards",
       ],
       cta: "Learn About Oversight",
-      accentColor: "#680808", // dark red
+      accentColor: "#821435",
     },
   ];
 
@@ -108,14 +108,14 @@ const PlatformForEveryone = () => {
         {userTypes.map((userType, index) => (
           <div
             key={index}
-            className="relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-[#680808] group flex flex-col justify-between"
-            style={{ minHeight: "520px" }} // consistent card height
+            className="relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-[#821435] group flex flex-col justify-between"
+            style={{ minHeight: "520px" }}
           >
             {/* Top Content */}
             <div>
               {/* Accent */}
               <div className="absolute top-0 right-0 w-16 h-16 overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 rotate-45 transform origin-bottom-left bg-gradient-to-br from-[#680808]/10 to-transparent"></div>
+                <div className="absolute top-0 right-0 w-32 h-32 rotate-45 transform origin-bottom-left bg-gradient-to-br from-[#821435]/10 to-transparent"></div>
               </div>
 
               {/* Icon */}
@@ -127,12 +127,10 @@ const PlatformForEveryone = () => {
               </div>
 
               {/* Role */}
-              <h3 className="text-2xl font-bold text-[#680808] mb-3">
+              <h3 className="text-2xl font-bold text-[#821435] mb-3">
                 {userType.role}
               </h3>
-              <p className="text-[#9e0909] mb-7 leading-relaxed">
-                {userType.description}
-              </p>
+              <p className="text-[#543D2E] mb-7 leading-relaxed">{userType.description}</p>
 
               {/* Features */}
               <ul className="space-y-4 mb-8">
@@ -159,13 +157,13 @@ const PlatformForEveryone = () => {
                         />
                       </svg>
                     </div>
-                    <span className="text-[#680808]">{feature}</span>
+                    <span className="text-[#821435]">{feature}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* CTA Button at bottom */}
+            {/* CTA Button */}
             <button
               className="w-full py-2.5 px-6 rounded-xl font-semibold transition-all duration-300 hover:opacity-90 hover:shadow-md"
               style={{
@@ -180,7 +178,7 @@ const PlatformForEveryone = () => {
       </div>
 
       {/* Integration Section */}
-      <div className="mt-20 bg-gradient-to-r from-[#680808] to-[#9e0909] rounded-2xl p-10 md:p-14 text-white overflow-hidden relative">
+      <div className="mt-20 bg-gradient-to-r from-[#821435] to-[#543D2E] rounded-2xl p-10 md:p-14 text-white overflow-hidden relative">
         <div className="absolute top-0 right-0 w-full h-full opacity-10">
           <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
             <defs>

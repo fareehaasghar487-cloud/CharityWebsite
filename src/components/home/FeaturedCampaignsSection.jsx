@@ -61,9 +61,14 @@ const FeaturedCampaignsSection = () => {
   return (
     <section className="mb-6 pt-24 bg-gray-50 text-gray-900">
       <div className="container mx-auto px-4">
+
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center justify-center px-4 py-1.5 bg-[#9e0909]/30 rounded-full font-medium text-sm mb-6 text-[#680808]">
+          <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full font-medium text-sm mb-6"
+            style={{
+              background: "#82143520",
+              color: "#821435"
+            }}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4 mr-2"
@@ -80,7 +85,8 @@ const FeaturedCampaignsSection = () => {
             </svg>
             Verified Campaigns
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#821435]">
             Make a Difference Today
           </h2>
           <p className="text-lg text-gray-700/80">
@@ -89,82 +95,77 @@ const FeaturedCampaignsSection = () => {
           </p>
         </div>
 
-        {/* Campaigns Grid */}
+        {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {campaigns.map((campaign, index) => (
             <div
               key={index}
               className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-200 group"
             >
-              {/* Campaign Image */}
+              {/* Image */}
               <div className="h-48 relative overflow-hidden">
                 <img
                   src={campaign.image}
                   alt={campaign.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
+
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
 
                 <div className="absolute top-4 left-4">
                   <span
-                    className={`px-3 py-1.5 rounded-full text-xs font-semibold ${campaign.category === "Health"
-                      ? "bg-[#9e0909]/40 text-[#680808]"
-                      : campaign.category === "Education"
-                        ? "bg-[#680808]/30 text-[#9e0909]"
-                        : "bg-[#9e0909]/20 text-[#680808]"
-                      }`}
+                    className="px-3 py-1.5 rounded-full text-xs font-semibold"
+                    style={{
+                      background: "#82143520",
+                      color: "#821435"
+                    }}
                   >
                     {campaign.category}
                   </span>
                 </div>
 
                 {campaign.verified && (
-                  <div className="absolute top-4 right-4 bg-white rounded-full p-1.5 shadow-md text-[#680808]">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
+                  <div
+                    className="absolute top-4 right-4 rounded-full p-1.5 shadow-md"
+                    style={{
+                      background: "white",
+                      color: "#543D2E"
+                    }}
+                  >
+                    ✔
                   </div>
                 )}
               </div>
 
-              {/* Campaign Content */}
+              {/* Content */}
               <div className="p-6">
-                <div className="flex items-center mb-3">
-                  <span className="text-gray-900 font-medium">{campaign.charity}</span>
-                </div>
+                <span className="text-gray-900 font-medium">{campaign.charity}</span>
 
-                <h3 className="text-xl font-semibold mb-3 leading-tight">
+                <h3 className="text-xl font-semibold mb-3 mt-2 leading-tight text-[#543D2E]">
                   {campaign.title}
                 </h3>
+
                 <p className="text-gray-700/80 mb-5">{campaign.description}</p>
 
-                {/* Progress Bar */}
+                {/* Progress */}
                 <div className="mb-5">
                   <div className="flex justify-between text-sm text-gray-900 mb-2 font-medium">
                     <span>
-                      {calculatePercentage(campaign.raised, campaign.goal)}%
-                      funded
+                      {calculatePercentage(campaign.raised, campaign.goal)}% funded
                     </span>
                     <span>{formatCurrency(campaign.raised)}</span>
                   </div>
+
                   <div className="w-full bg-gray-200 rounded-full h-2.5">
                     <div
                       className="h-2.5 rounded-full"
                       style={{
                         width: `${calculatePercentage(campaign.raised, campaign.goal)}%`,
-                        background: "linear-gradient(to right, #680808, #9e0909, #680808)",
+                        background: "linear-gradient(to right, #543D2E, #821435, #543D2E)"
                       }}
                     ></div>
                   </div>
+
                   <div className="flex justify-between text-xs text-gray-500 mt-1">
                     <span>Raised</span>
                     <span>Goal: {formatCurrency(campaign.goal)}</span>
@@ -177,8 +178,13 @@ const FeaturedCampaignsSection = () => {
                   <span>{campaign.daysLeft} days left</span>
                 </div>
 
-                {/* CTA Button */}
-                <button className="w-full bg-gradient-to-r from-[#680808] via-[#9e0909] to-[#680808] text-white font-semibold py-2.5 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg">
+                {/* CTA */}
+                <button
+                  className="w-full text-white font-semibold py-2.5 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg"
+                  style={{
+                    background: "linear-gradient(to right, #543D2E, #821435, #543D2E)"
+                  }}
+                >
                   Donate Now
                 </button>
               </div>
@@ -186,18 +192,25 @@ const FeaturedCampaignsSection = () => {
           ))}
         </div>
 
-        {/* View All CTA */}
+        {/* Footer CTA */}
         <div className="text-center mt-12">
-          <button className="bg-white/20 hover:bg-white/30 text-gray-900 font-semibold py-2.5 px-10 rounded-lg border-2 border-gray-300 transition duration-300 shadow-md hover:shadow-lg">
+          <button
+            className="font-semibold py-2.5 px-10 rounded-lg transition duration-300 shadow-md hover:shadow-lg border"
+            style={{
+              background: "#543D2E10",
+              borderColor: "#543D2E50",
+              color: "#543D2E"
+            }}
+          >
             View All Campaigns
           </button>
+
           <p className="text-sm text-gray-500 mt-4">
             All campaigns are RACA-approved and Sandi-integrated
           </p>
         </div>
       </div>
     </section>
-
   );
 };
 
