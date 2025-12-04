@@ -3,7 +3,6 @@ import React, { useState } from "react";
 const ImpactShowcase = () => {
   const [activeTab, setActiveTab] = useState("all");
 
-  // Sample data
   const stats = [
     { value: "2.5M+", label: "Donations Processed", trend: "+15% this month" },
     { value: "150+", label: "Charities Registered", trend: "Across Qatar" },
@@ -124,21 +123,17 @@ const ImpactShowcase = () => {
       : features.filter((feature) => feature.category === activeTab);
 
   return (
-    <section className="py-20 bg-gradient-to-br from-[#E6F3EA] relative overflow-hidden">
-      {/* Decorative elements */}
-      <div className="absolute top-0 left-0 w-full h-72 bg-green-700 opacity-5"></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-green-300 rounded-full opacity-5 transform translate-x-1/2 translate-y-1/2"></div>
-
+    <section className="py-20 bg-white relative overflow-hidden">
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1 mb-4 text-sm font-semibold text-green-700 bg-green-100 rounded-full">
+          <span className="inline-block px-4 py-1 mb-4 text-sm font-semibold text-white bg-gradient-to-r from-[#680808] via-[#9e0909] to-[#680808] rounded-full">
             Qatar's Premier Charity Platform
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-green-900 mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 py-2 text-gradient bg-clip-text text-transparent bg-gradient-to-r from-[#680808] via-[#9e0909] to-[#680808]">
             Transforming Charitable Giving in Qatar
           </h2>
-          <p className="text-xl text-green-700 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl max-w-3xl mx-auto leading-relaxed text-[#680808]">
             A comprehensive digital platform integrating with Sandi to bring transparency, efficiency, and trust to charitable donations across Qatar.
           </p>
         </div>
@@ -148,20 +143,20 @@ const ImpactShowcase = () => {
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="bg-white rounded-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              className="bg-gradient-to-r from-[#680808] via-[#9e0909] to-[#680808] text-white rounded-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
             >
-              <div className="text-4xl font-bold text-green-700 mb-2">{stat.value}</div>
-              <div className="text-green-900 font-semibold mb-1">{stat.label}</div>
-              <div className="text-sm text-green-600">{stat.trend}</div>
+              <div className="text-4xl font-bold mb-2">{stat.value}</div>
+              <div className="font-semibold mb-1">{stat.label}</div>
+              <div className="text-sm">{stat.trend}</div>
             </div>
           ))}
         </div>
 
-        {/* Features Section with Tabs */}
+        {/* Features Section */}
         <div className="mb-20">
           <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-green-900 mb-4">Platform Features</h3>
-            <p className="text-green-700 max-w-2xl mx-auto">
+            <h3 className="text-3xl font-bold mb-4 text-[#680808]">Platform Features</h3>
+            <p className="max-w-2xl mx-auto text-[#9e0909]">
               Advanced capabilities designed for all stakeholders in the charitable ecosystem
             </p>
           </div>
@@ -170,14 +165,13 @@ const ImpactShowcase = () => {
             {["all", "transparency", "security", "integration", "management", "accessibility"].map((tab) => (
               <button
                 key={tab}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                  activeTab === tab ? "bg-green-700 text-white" : "bg-white text-green-700 hover:bg-green-100"
-                }`}
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${activeTab === tab
+                    ? "bg-gradient-to-r from-[#680808] via-[#9e0909] to-[#680808] text-white"
+                    : "bg-white text-[#680808] border border-[#680808] hover:bg-[#ffcccc]"
+                  }`}
                 onClick={() => setActiveTab(tab)}
               >
-                {tab === "all"
-                  ? "All Features"
-                  : tab.charAt(0).toUpperCase() + tab.slice(1)}
+                {tab === "all" ? "All Features" : tab.charAt(0).toUpperCase() + tab.slice(1)}
               </button>
             ))}
           </div>
@@ -186,13 +180,11 @@ const ImpactShowcase = () => {
             {filteredFeatures.map((feature, index) => (
               <div
                 key={index}
-                className="bg-white rounded-2xl shadow-lg p-6 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+                className="bg-gradient-to-r from-[#680808] via-[#9e0909] to-[#680808] text-white rounded-2xl shadow-lg p-6 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
               >
-                <div className="text-green-700 mb-4 flex justify-center">
-                  {feature.icon}
-                </div>
-                <h3 className="text-xl font-semibold text-green-900 mb-3 text-center">{feature.title}</h3>
-                <p className="text-green-700 text-center text-sm leading-relaxed">{feature.description}</p>
+                <div className="mb-4 flex justify-center">{feature.icon}</div>
+                <h3 className="text-xl font-semibold mb-3 text-center">{feature.title}</h3>
+                <p className="text-center text-sm leading-relaxed">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -201,8 +193,8 @@ const ImpactShowcase = () => {
         {/* User Testimonials */}
         <div className="mb-16">
           <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-green-900 mb-4">What Our Users Say</h3>
-            <p className="text-green-700 max-w-2xl mx-auto">
+            <h3 className="text-3xl font-bold mb-4 text-[#680808]">What Our Users Say</h3>
+            <p className="max-w-2xl mx-auto text-[#9e0909]">
               Hear from stakeholders across the charitable ecosystem
             </p>
           </div>
@@ -211,33 +203,33 @@ const ImpactShowcase = () => {
             {userStories.map((story, index) => (
               <div
                 key={index}
-                className="bg-white rounded-2xl shadow-lg p-6 transform transition-all duration-300 hover:shadow-xl"
+                className="bg-gradient-to-r from-[#680808] via-[#9e0909] to-[#680808] text-white rounded-2xl shadow-lg p-6 transform transition-all duration-300 hover:shadow-xl"
               >
                 <div className="flex items-center mb-4">
                   <img
                     src={story.image}
                     alt={story.author}
-                    className="w-12 h-12 rounded-full object-cover mr-4"
+                    className="w-12 h-12 rounded-full object-cover mr-4 border-2 border-white"
                   />
                   <div>
-                    <h4 className="font-semibold text-green-900">{story.author}</h4>
-                    <p className="text-sm text-green-700">{story.role}</p>
+                    <h4 className="font-semibold">{story.author}</h4>
+                    <p className="text-sm">{story.role}</p>
                   </div>
                 </div>
-                <p className="text-green-700 italic">"{story.quote}"</p>
+                <p className="italic">"{story.quote}"</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* CTA Section */}
+        {/* CTA */}
         <div className="text-center">
-          <h3 className="text-2xl font-bold text-green-900 mb-6">Join Qatar's Trusted Charity Platform</h3>
+          <h3 className="text-2xl font-bold mb-6 text-[#680808]">Join Qatar's Trusted Charity Platform</h3>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button className="px-8 py-3 bg-green-700 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition-colors">
+            <button className="px-8 py-3 bg-gradient-to-r from-[#680808] via-[#9e0909] to-[#680808] text-white font-semibold rounded-lg shadow-md hover:opacity-90 transition-colors">
               Register Your Charity
             </button>
-            <button className="px-8 py-3 bg-white text-green-700 border border-green-700 font-semibold rounded-lg shadow-md hover:bg-green-100 transition-colors">
+            <button className="px-8 py-3 bg-white text-[#680808] border border-[#680808] font-semibold rounded-lg shadow-md hover:bg-[#ffcccc] transition-colors">
               Make a Donation
             </button>
           </div>

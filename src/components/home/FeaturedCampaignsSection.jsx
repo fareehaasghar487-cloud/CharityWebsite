@@ -14,7 +14,7 @@ const FeaturedCampaignsSection = () => {
       daysLeft: 12,
       verified: true,
       image:
-        "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?auto=format&fit=crop&w=600&q=80",
+        "https://images.pexels.com/photos/33763195/pexels-photo-33763195.jpeg",
     },
     {
       category: "Education",
@@ -42,7 +42,7 @@ const FeaturedCampaignsSection = () => {
       daysLeft: 5,
       verified: true,
       image:
-        "https://images.unsplash.com/photo-1577896851231-70ef18861754?auto=format&fit=crop&w=600&q=80",
+        "https://images.pexels.com/photos/14831647/pexels-photo-14831647.jpeg",
     },
   ];
 
@@ -59,12 +59,11 @@ const FeaturedCampaignsSection = () => {
   };
 
   return (
-    <section className="mb-6 pt-24 bg-green-50">
-      {/* pt-24 pushes content below navbar, bg-green-50 adds pale green background */}
+    <section className="mb-6 pt-24 bg-gray-50 text-gray-900">
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center justify-center px-4 py-1.5 bg-green-100 rounded-full text-green-700 font-medium text-sm mb-6">
+          <div className="inline-flex items-center justify-center px-4 py-1.5 bg-[#9e0909]/30 rounded-full font-medium text-sm mb-6 text-[#680808]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4 mr-2"
@@ -81,10 +80,10 @@ const FeaturedCampaignsSection = () => {
             </svg>
             Verified Campaigns
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-green-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Make a Difference Today
           </h2>
-          <p className="text-lg text-green-700/80">
+          <p className="text-lg text-gray-700/80">
             Support RACA-approved campaigns from trusted charities in Qatar. All
             campaigns are integrated with Sandi for transparent impact.
           </p>
@@ -95,9 +94,9 @@ const FeaturedCampaignsSection = () => {
           {campaigns.map((campaign, index) => (
             <div
               key={index}
-              className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-green-100 group"
+              className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-200 group"
             >
-              {/* Campaign Image with Overlay */}
+              {/* Campaign Image */}
               <div className="h-48 relative overflow-hidden">
                 <img
                   src={campaign.image}
@@ -108,23 +107,22 @@ const FeaturedCampaignsSection = () => {
 
                 <div className="absolute top-4 left-4">
                   <span
-                    className={`px-3 py-1.5 rounded-full text-xs font-semibold ${
-                      campaign.category === "Health"
-                        ? "bg-green-100 text-green-800"
-                        : campaign.category === "Education"
-                        ? "bg-green-200 text-green-900"
-                        : "bg-green-50 text-green-700"
-                    }`}
+                    className={`px-3 py-1.5 rounded-full text-xs font-semibold ${campaign.category === "Health"
+                      ? "bg-[#9e0909]/40 text-[#680808]"
+                      : campaign.category === "Education"
+                        ? "bg-[#680808]/30 text-[#9e0909]"
+                        : "bg-[#9e0909]/20 text-[#680808]"
+                      }`}
                   >
                     {campaign.category}
                   </span>
                 </div>
 
                 {campaign.verified && (
-                  <div className="absolute top-4 right-4 bg-white rounded-full p-1.5 shadow-md">
+                  <div className="absolute top-4 right-4 bg-white rounded-full p-1.5 shadow-md text-[#680808]">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-green-700"
+                      className="h-5 w-5"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                     >
@@ -141,51 +139,46 @@ const FeaturedCampaignsSection = () => {
               {/* Campaign Content */}
               <div className="p-6">
                 <div className="flex items-center mb-3">
-                  <span className="text-sm font-medium text-green-900">
-                    {campaign.charity}
-                  </span>
+                  <span className="text-gray-900 font-medium">{campaign.charity}</span>
                 </div>
 
-                <h3 className="text-xl font-semibold text-green-900 mb-3 leading-tight">
+                <h3 className="text-xl font-semibold mb-3 leading-tight">
                   {campaign.title}
                 </h3>
-                <p className="text-green-700/80 mb-5">{campaign.description}</p>
+                <p className="text-gray-700/80 mb-5">{campaign.description}</p>
 
                 {/* Progress Bar */}
                 <div className="mb-5">
-                  <div className="flex justify-between text-sm text-green-900 mb-2 font-medium">
+                  <div className="flex justify-between text-sm text-gray-900 mb-2 font-medium">
                     <span>
                       {calculatePercentage(campaign.raised, campaign.goal)}%
                       funded
                     </span>
                     <span>{formatCurrency(campaign.raised)}</span>
                   </div>
-                  <div className="w-full bg-green-100 rounded-full h-2.5">
+                  <div className="w-full bg-gray-200 rounded-full h-2.5">
                     <div
                       className="h-2.5 rounded-full"
                       style={{
-                        width: `${calculatePercentage(
-                          campaign.raised,
-                          campaign.goal
-                        )}%`,
-                        background: `linear-gradient(to right, #6BBF59, #3C8D2F)`,
+                        width: `${calculatePercentage(campaign.raised, campaign.goal)}%`,
+                        background: "linear-gradient(to right, #680808, #9e0909, #680808)",
                       }}
                     ></div>
                   </div>
-                  <div className="flex justify-between text-xs text-green-700/70 mt-1">
+                  <div className="flex justify-between text-xs text-gray-500 mt-1">
                     <span>Raised</span>
                     <span>Goal: {formatCurrency(campaign.goal)}</span>
                   </div>
                 </div>
 
                 {/* Stats */}
-                <div className="flex justify-between text-sm text-green-900 mb-6">
+                <div className="flex justify-between text-sm text-gray-900 mb-6">
                   <span>{campaign.donors.toLocaleString()} donors</span>
                   <span>{campaign.daysLeft} days left</span>
                 </div>
 
                 {/* CTA Button */}
-                <button className="w-full bg-green-600 hover:bg-green-500 text-white font-semibold py-2.5 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg">
+                <button className="w-full bg-gradient-to-r from-[#680808] via-[#9e0909] to-[#680808] text-white font-semibold py-2.5 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg">
                   Donate Now
                 </button>
               </div>
@@ -195,15 +188,16 @@ const FeaturedCampaignsSection = () => {
 
         {/* View All CTA */}
         <div className="text-center mt-12">
-          <button className="bg-green-100 hover:bg-green-200 text-green-700 font-semibold py-2.5 px-10 rounded-lg border-2 border-green-600 transition duration-300 shadow-md hover:shadow-lg">
+          <button className="bg-white/20 hover:bg-white/30 text-gray-900 font-semibold py-2.5 px-10 rounded-lg border-2 border-gray-300 transition duration-300 shadow-md hover:shadow-lg">
             View All Campaigns
           </button>
-          <p className="text-sm text-green-700/70 mt-4">
+          <p className="text-sm text-gray-500 mt-4">
             All campaigns are RACA-approved and Sandi-integrated
           </p>
         </div>
       </div>
     </section>
+
   );
 };
 
