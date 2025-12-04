@@ -127,13 +127,13 @@ const ImpactShowcase = () => {
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1 mb-4 text-sm font-semibold text-white bg-gradient-to-r from-[#680808] via-[#9e0909] to-[#680808] rounded-full">
+          <span className="inline-block px-4 py-1 mb-4 text-sm font-semibold text-white bg-gradient-to-r from-[#821435] via-[#543D2E] to-[#821435] rounded-full">
             Qatar's Premier Charity Platform
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 py-2 text-gradient bg-clip-text text-transparent bg-gradient-to-r from-[#680808] via-[#9e0909] to-[#680808]">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 py-2 text-gradient bg-clip-text text-transparent bg-gradient-to-r from-[#821435] via-[#543D2E] to-[#821435]">
             Transforming Charitable Giving in Qatar
           </h2>
-          <p className="text-xl max-w-3xl mx-auto leading-relaxed text-[#680808]">
+          <p className="text-xl max-w-3xl mx-auto leading-relaxed text-[#821435]">
             A comprehensive digital platform integrating with Sandi to bring transparency, efficiency, and trust to charitable donations across Qatar.
           </p>
         </div>
@@ -143,7 +143,7 @@ const ImpactShowcase = () => {
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="bg-gradient-to-r from-[#680808] via-[#9e0909] to-[#680808] text-white rounded-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              className="bg-gradient-to-r from-[#821435] via-[#543D2E] to-[#821435] text-white rounded-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
             >
               <div className="text-4xl font-bold mb-2">{stat.value}</div>
               <div className="font-semibold mb-1">{stat.label}</div>
@@ -155,8 +155,8 @@ const ImpactShowcase = () => {
         {/* Features Section */}
         <div className="mb-20">
           <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold mb-4 text-[#680808]">Platform Features</h3>
-            <p className="max-w-2xl mx-auto text-[#9e0909]">
+            <h3 className="text-3xl font-bold mb-4 text-[#821435]">Platform Features</h3>
+            <p className="max-w-2xl mx-auto text-[#543D2E]">
               Advanced capabilities designed for all stakeholders in the charitable ecosystem
             </p>
           </div>
@@ -166,8 +166,8 @@ const ImpactShowcase = () => {
               <button
                 key={tab}
                 className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${activeTab === tab
-                    ? "bg-gradient-to-r from-[#680808] via-[#9e0909] to-[#680808] text-white"
-                    : "bg-white text-[#680808] border border-[#680808] hover:bg-[#ffcccc]"
+                    ? "bg-gradient-to-r from-[#821435] via-[#543D2E] to-[#821435] text-white"
+                    : "bg-white text-[#821435] border border-[#821435] hover:bg-[#ffcccc]"
                   }`}
                 onClick={() => setActiveTab(tab)}
               >
@@ -180,7 +180,7 @@ const ImpactShowcase = () => {
             {filteredFeatures.map((feature, index) => (
               <div
                 key={index}
-                className="bg-gradient-to-r from-[#680808] via-[#9e0909] to-[#680808] text-white rounded-2xl shadow-lg p-6 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+                className="bg-gradient-to-r from-[#821435] via-[#543D2E] to-[#821435] text-white rounded-2xl shadow-lg p-6 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
               >
                 <div className="mb-4 flex justify-center">{feature.icon}</div>
                 <h3 className="text-xl font-semibold mb-3 text-center">{feature.title}</h3>
@@ -193,8 +193,8 @@ const ImpactShowcase = () => {
         {/* User Testimonials */}
         <div className="mb-16">
           <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold mb-4 text-[#680808]">What Our Users Say</h3>
-            <p className="max-w-2xl mx-auto text-[#9e0909]">
+            <h3 className="text-3xl font-bold mb-4 text-[#821435]">What Our Users Say</h3>
+            <p className="max-w-2xl mx-auto text-[#543D2E]">
               Hear from stakeholders across the charitable ecosystem
             </p>
           </div>
@@ -203,7 +203,7 @@ const ImpactShowcase = () => {
             {userStories.map((story, index) => (
               <div
                 key={index}
-                className="bg-gradient-to-r from-[#680808] via-[#9e0909] to-[#680808] text-white rounded-2xl shadow-lg p-6 transform transition-all duration-300 hover:shadow-xl"
+                className="bg-gradient-to-r from-[#821435] via-[#543D2E] to-[#821435] text-white rounded-2xl shadow-lg p-6 transform transition-all duration-300 hover:shadow-xl"
               >
                 <div className="flex items-center mb-4">
                   <img
@@ -224,12 +224,12 @@ const ImpactShowcase = () => {
 
         {/* CTA */}
         <div className="text-center">
-          <h3 className="text-2xl font-bold mb-6 text-[#680808]">Join Qatar's Trusted Charity Platform</h3>
+          <h3 className="text-2xl font-bold mb-6 text-[#821435]">Join Qatar's Trusted Charity Platform</h3>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button className="px-8 py-3 bg-gradient-to-r from-[#680808] via-[#9e0909] to-[#680808] text-white font-semibold rounded-lg shadow-md hover:opacity-90 transition-colors">
+            <button className="px-8 py-3 bg-gradient-to-r from-[#821435] via-[#543D2E] to-[#821435] text-white font-semibold rounded-lg shadow-md hover:opacity-90 transition-colors">
               Register Your Charity
             </button>
-            <button className="px-8 py-3 bg-white text-[#680808] border border-[#680808] font-semibold rounded-lg shadow-md hover:bg-[#ffcccc] transition-colors">
+            <button className="px-8 py-3 bg-white text-[#821435] border border-[#821435] font-semibold rounded-lg shadow-md hover:bg-[#ffcccc] transition-colors">
               Make a Donation
             </button>
           </div>

@@ -64,7 +64,7 @@ export default function LatestCampaign() {
 
   return (
     <div className="px-6 pt-32 sm:pt-36 md:pt-40 lg:pt-44 min-h-screen">
-      <h1 className="text-3xl font-bold text-center text-green-900 mb-10">
+      <h1 className="text-3xl font-bold text-center mb-10" style={{ color: "#543D2E" }}>
         Active Campaigns
       </h1>
 
@@ -73,7 +73,8 @@ export default function LatestCampaign() {
           <div
             data-aos="fade-up"
             key={item.id}
-            className="bg-white shadow-lg rounded-2xl overflow-hidden hover:scale-105 transform transition-all duration-1000 ease-in-out border border-green-200"
+            className="bg-white shadow-lg rounded-2xl overflow-hidden hover:scale-105 transform transition-all duration-1000 ease-in-out border"
+            style={{ borderColor: "#543D2E" }}
           >
             <img
               src={item.img}
@@ -81,33 +82,38 @@ export default function LatestCampaign() {
               className="w-full h-48 object-cover"
             />
             <div className="p-5">
-              <h2 className="text-xl font-semibold text-green-900">
+              <h2 className="text-xl font-semibold" style={{ color: "#543D2E" }}>
                 {item.name}
               </h2>
-              <p className="text-green-700 mt-2 text-sm">{item.desc}</p>
+              <p className="mt-2 text-sm" style={{ color: "#821435" }}>{item.desc}</p>
 
               {/* Progress Section */}
               <div className="mt-4">
-                <div className="flex justify-between text-sm text-green-800">
+                <div className="flex justify-between text-sm" style={{ color: "#543D2E" }}>
                   <p>Raised: {item.raisedAmount}</p>
                   <p>Target: {item.target}</p>
                 </div>
-                <div className="w-full bg-green-100 rounded-full h-2 mt-2">
+                <div className="w-full bg-[#543D2E33] rounded-full h-2 mt-2">
                   <div
-                    className="bg-[palegreen] h-2 rounded-full"
+                    className="h-2 rounded-full"
                     style={{
-                      width: `${
-                        (parseInt(item.raisedAmount.replace(/[^0-9]/g, "")) /
+                      backgroundColor: "#821435",
+                      width: `${(parseInt(item.raisedAmount.replace(/[^0-9]/g, "")) /
                           parseInt(item.target.replace(/[^0-9]/g, ""))) *
                         100
-                      }%`,
+                        }%`,
                     }}
                   ></div>
                 </div>
               </div>
 
               <Link to="/contact">
-                <button className="mt-5 w-full bg-[palegreen] text-green-900 py-2 rounded-lg cursor-pointer font-medium hover:bg-green-400 hover:text-white transition-all duration-500 ease-in-out">
+                <button
+                  className="mt-5 w-full py-2 rounded-lg font-medium cursor-pointer transition-all duration-500 ease-in-out"
+                  style={{ backgroundColor: "#821435", color: "white" }}
+                  onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#543D2E")}
+                  onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#821435")}
+                >
                   Donate Now
                 </button>
               </Link>
@@ -117,6 +123,4 @@ export default function LatestCampaign() {
       </div>
     </div>
   );
-};
-
-
+}

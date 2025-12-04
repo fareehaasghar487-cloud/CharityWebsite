@@ -4,7 +4,8 @@ import { TbLoader } from "react-icons/tb";
 import AOS from "aos";
 import emailjs from "@emailjs/browser";
 import "aos/dist/aos.css";
-import { toast } from "react-hot-toast";import {
+import { toast } from "react-hot-toast";
+import {
   FaEnvelope,
   FaPhone,
   FaMapMarkerAlt,
@@ -24,12 +25,9 @@ export default function ContactForm() {
     AOS.init({ duration: 1000, once: true });
   }, []);
 
-
-
-  // send Email contact information
   const sendEmail = (e) => {
     e.preventDefault();
-    setisloading(true)
+    setisloading(true);
 
     emailjs
       .sendForm("service_ugzyc0a", "template_z685c16", form.current, {
@@ -46,47 +44,44 @@ export default function ContactForm() {
         }
       );
   };
+
   return (
-    <div className="max-w-8xl mx-auto pt-32 pb-12 px-4 sm:px-6 lg:px-8 bg-white">
-      <div className="text-center mb-16" data-aos="fade-up">
+    <div className="max-w-7xl mx-auto pt-24 pb-12 px-4 sm:px-6 lg:px-8 bg-white">
+      <div className="text-center mb-12" data-aos="fade-up">
         <h1
-          className="text-4xl font-bold text-gray-900 mb-4 font-serif"
+          className="text-4xl md:text-5xl font-extrabold text-[#543D2E] mb-4 font-serif"
           data-aos="fade-down"
           data-aos-delay="200"
         >
-         
           Get In Touch
         </h1>
         <p
-          className="text-xl text-gray-600 max-w-2xl mx-auto"
+          className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto"
           data-aos="fade-up"
           data-aos-delay="300"
         >
-          We'd love to hear from you. Reach out to us with any questions or
-          inquiries.
+          We'd love to hear from you. Reach out to us with any questions or inquiries.
         </p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-12">
+      <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
         {/* Contact Form */}
         <div
-          className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-2xl sm:h-[115vh]"
+          className="bg-white rounded-xl shadow-xl border border-gray-100 transition-all duration-300 hover:shadow-2xl flex flex-col overflow-hidden"
           data-aos="fade-up"
         >
-          <div className="bg-gradient-to-r from-[palegreen] to-green-400 py-6 px-8">
-            <h2 className="text-black text-2xl font-semibold flex items-center gap-2">
-              <FaPaperPlane className="text-black" />
+          <div className="bg-gradient-to-r from-[#740e2d] to-[#821435] py-6 px-8">
+            <h2 className="text-white text-2xl font-semibold flex items-center gap-2">
+              <FaPaperPlane />
               Send us a Message
             </h2>
-            <p className="text-gray-700 mt-1">
-              We'll respond as soon as possible
-            </p>
+            <p className="text-gray-300 mt-1">We'll respond as soon as possible</p>
           </div>
 
           <form
             ref={form}
-            className="p-8 space-y-6"
             onSubmit={sendEmail}
+            className="p-6 sm:p-8 flex-1 flex flex-col gap-4 overflow-y-auto"
           >
             <div className="relative">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -96,7 +91,7 @@ export default function ContactForm() {
                 type="text"
                 name="name"
                 placeholder="Your Full Name"
-                className="w-full border border-gray-200 rounded-lg pl-10 p-3.5 focus:outline-none focus:ring-2 focus:ring-green-300 transition-all duration-300"
+                className="w-full border border-gray-200 rounded-lg pl-10 p-3.5 focus:outline-none focus:ring-2 focus:ring-[#543D2E] transition-all duration-300"
                 required
               />
             </div>
@@ -109,12 +104,15 @@ export default function ContactForm() {
                 type="email"
                 name="email"
                 placeholder="Your Email Address"
-                className="w-full border border-gray-200 rounded-lg pl-10 p-3.5 focus:outline-none focus:ring-2 focus:ring-green-300 transition-all duration-300"
+                className="w-full border border-gray-200 rounded-lg pl-10 p-3.5 focus:outline-none focus:ring-2 focus:ring-[#543D2E] transition-all duration-300"
                 required
               />
             </div>
 
-            <select name="topic" className="w-full border border-gray-200 rounded-lg p-3.5 focus:outline-none focus:ring-2 focus:ring-green-300 transition-all duration-300 bg-white appearance-none">
+            <select
+              name="topic"
+              className="w-full border border-gray-200 rounded-lg p-3.5 focus:outline-none focus:ring-2 focus:ring-[#543D2E] transition-all duration-300 bg-white appearance-none"
+            >
               <option value="">Choose a Topic</option>
               <option value="Donation Support">Donation Support</option>
               <option value="Receipts">Receipts</option>
@@ -130,7 +128,7 @@ export default function ContactForm() {
                 type="text"
                 name="subject"
                 placeholder="Subject"
-                className="w-full border border-gray-200 rounded-lg pl-10 p-3.5 focus:outline-none focus:ring-2 focus:ring-green-300 transition-all duration-300"
+                className="w-full border border-gray-200 rounded-lg pl-10 p-3.5 focus:outline-none focus:ring-2 focus:ring-[#543D2E] transition-all duration-300"
                 required
               />
             </div>
@@ -139,36 +137,32 @@ export default function ContactForm() {
               rows={5}
               name="message"
               placeholder="Your Message"
-              className="w-full border border-gray-200 rounded-lg p-3.5 focus:outline-none focus:ring-2 focus:ring-green-300 transition-all duration-300"
+              className="w-full border border-gray-200 rounded-lg p-3.5 focus:outline-none focus:ring-2 focus:ring-[#543D2E] transition-all duration-300"
               required
             ></textarea>
 
             <button
               type="submit"
-              className="w-full bg-[palegreen] hover:bg-green-400 text-black py-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium"
+              className="w-full bg-[#821435] hover:bg-[#821435ec] text-white py-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium mt-2"
             >
-              
-
-             {isloading ? "Loading":"Send Message"}
-             {isloading ? <TbLoader /> :<FaPaperPlane />}
+              {isloading ? "Loading" : "Send Message"}
+              {isloading ? <TbLoader /> : <FaPaperPlane />}
             </button>
-
-           
           </form>
         </div>
 
         {/* Contact Info + Quick Links */}
-        <div className="space-y-8" data-aos="zoom-in-up" data-aos-delay="200">
+        <div className="space-y-8 flex flex-col justify-start" data-aos="zoom-in-up" data-aos-delay="200">
           {/* Contact Info */}
-          <div className="bg-white p-8 rounded-xl shadow-xl border border-gray-100 transition-all duration-300 hover:shadow-2xl">
+          <div className="bg-white p-6 sm:p-8 rounded-xl shadow-xl border border-gray-100 transition-all duration-300 hover:shadow-2xl">
             <h2 className="text-2xl font-bold text-gray-900 mb-6 pb-3 border-b border-gray-200 flex items-center gap-2">
-              <FaMapMarkerAlt className="text-green-500" />
+              <FaMapMarkerAlt className="text-[#543D2E]" />
               Contact Information
             </h2>
             <ul className="space-y-6 text-gray-700">
               <li className="flex items-start gap-4">
-                <div className="bg-[palegreen] p-3 rounded-full flex items-center justify-center mt-1">
-                  <FaEnvelope className="text-black text-lg" />
+                <div className="bg-[#543D2E] p-3 rounded-full flex items-center justify-center mt-1">
+                  <FaEnvelope className="text-white text-lg" />
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-900">Email</h3>
@@ -179,8 +173,8 @@ export default function ContactForm() {
                 </div>
               </li>
               <li className="flex items-start gap-4">
-                <div className="bg-[palegreen] p-3 rounded-full flex items-center justify-center mt-1">
-                  <FaPhone className="text-black text-lg" />
+                <div className="bg-[#543D2E] p-3 rounded-full flex items-center justify-center mt-1">
+                  <FaPhone className="text-white text-lg" />
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-900">Phone</h3>
@@ -191,8 +185,8 @@ export default function ContactForm() {
                 </div>
               </li>
               <li className="flex items-start gap-4">
-                <div className="bg-[palegreen] p-3 rounded-full flex items-center justify-center mt-1">
-                  <FaMapMarkerAlt className="text-black text-lg" />
+                <div className="bg-[#543D2E] p-3 rounded-full flex items-center justify-center mt-1">
+                  <FaMapMarkerAlt className="text-white text-lg" />
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-900">Office</h3>
@@ -209,18 +203,18 @@ export default function ContactForm() {
 
           {/* Quick Links */}
           <div
-            className="bg-white p-8 rounded-xl shadow-xl border border-gray-100 transition-all duration-300 hover:shadow-2xl"
+            className="bg-white p-6 sm:p-8 rounded-xl shadow-xl border border-gray-100 transition-all duration-300 hover:shadow-2xl"
             data-aos="zoom-in"
             data-aos-delay="200"
           >
             <h2 className="text-2xl font-bold text-gray-900 mb-6 pb-3 border-b border-gray-200 flex items-center gap-2">
-              <FaQuestionCircle className="text-green-500" />
+              <FaQuestionCircle className="text-[#543D2E]" />
               Quick Support
             </h2>
             <ul className="space-y-4">
               <li className="flex items-center gap-4 p-4 rounded-lg hover:bg-gray-50 cursor-pointer transition-all duration-300 group">
-                <div className="bg-[palegreen] p-3 rounded-full group-hover:scale-110 transition-transform duration-300">
-                  <FaFileAlt className="text-black text-lg" />
+                <div className="bg-[#543D2E] p-3 rounded-full group-hover:scale-110 transition-transform duration-300">
+                  <FaFileAlt className="text-white text-lg" />
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-900">
@@ -232,8 +226,8 @@ export default function ContactForm() {
                 </div>
               </li>
               <li className="flex items-center gap-4 p-4 rounded-lg hover:bg-gray-50 cursor-pointer transition-all duration-300 group">
-                <div className="bg-[palegreen] p-3 rounded-full group-hover:scale-110 transition-transform duration-300">
-                  <FaComments className="text-black text-lg" />
+                <div className="bg-[#543D2E] p-3 rounded-full group-hover:scale-110 transition-transform duration-300">
+                  <FaComments className="text-white text-lg" />
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-900">
@@ -245,8 +239,8 @@ export default function ContactForm() {
                 </div>
               </li>
               <li className="flex items-center gap-4 p-4 rounded-lg hover:bg-gray-50 cursor-pointer transition-all duration-300 group">
-                <div className="bg-[palegreen] p-3 rounded-full group-hover:scale-110 transition-transform duration-300">
-                  <FaQuestionCircle className="text-black text-lg" />
+                <div className="bg-[#543D2E] p-3 rounded-full group-hover:scale-110 transition-transform duration-300">
+                  <FaQuestionCircle className="text-white text-lg" />
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-900">
@@ -263,5 +257,4 @@ export default function ContactForm() {
       </div>
     </div>
   );
-};
-
+}

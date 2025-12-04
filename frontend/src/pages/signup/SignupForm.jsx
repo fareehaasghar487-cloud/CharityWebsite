@@ -3,16 +3,15 @@ import { FaUser, FaLock, FaEnvelope, FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { useSignupMutation } from "../../../Redux/slices/UserApi";
 
 export default function SignupForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+  const { signup } = useSignupMutation();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -30,11 +29,8 @@ export default function SignupForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/v1/user/signup", // your backend route
-        formData
-      );
-      console.log(response.data);
+      const response = await signup(formData).unwrap();
+      console.log(response);
       toast.success("Signup Successfully");
       navigate("/login");
     } catch (error) {
@@ -48,14 +44,20 @@ export default function SignupForm() {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 sm:px-8 md:px-12 lg:px-16 py-32 bg-green-50">
-      {/* Luxury Card */}
-      <div className="w-full max-w-3xl bg-white shadow-xl rounded-lg overflow-hidden border border-green-300">
-        {/* Green Header */}
-        <div className="bg-green-100 py-6 px-4 sm:px-8 text-center">
+    <div
+      className="min-h-screen flex items-center justify-center px-4 sm:px-8 md:px-12 lg:px-16 py-32"
+      style={{ backgroundColor: "#F7EFEA" }}
+    >
+      <div
+        className="w-full max-w-3xl bg-white shadow-xl rounded-lg overflow-hidden border"
+        style={{ borderColor: "#543D2E40" }}
+      >
+        {/* Header */}
+        <div className="py-6 px-4 sm:px-8 text-center" style={{ backgroundColor: "#82143520" }}>
           <h1
-            className="text-green-800 font-serif text-2xl sm:text-3xl font-bold"
+            className="font-serif text-2xl sm:text-3xl font-bold"
             data-aos="zoom-out-up"
+            style={{ color: "#543D2E" }}
           >
             Create Hope Today
           </h1>
@@ -66,38 +68,43 @@ export default function SignupForm() {
           {/* Full Name */}
           <div className="mb-4">
             <label
-              className="block text-green-800 font-semibold mb-2"
+              className="block font-semibold mb-2"
               data-aos="zoom-in-up"
+              style={{ color: "#543D2E" }}
             >
               Full Name
             </label>
             <div className="relative">
               <FaUser
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-800"
+                className="absolute left-3 top-1/2 transform -translate-y-1/2"
                 size={18}
+                style={{ color: "#821435" }}
               />
               <input
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleChange}
                 placeholder="Enter your full name"
-                className="w-full pl-10 pr-4 py-2 border border-green-300 rounded-lg focus:ring-1 focus:ring-green-400 transition-all duration-200 outline-none"
+                className="w-full pl-10 pr-4 py-2 border rounded-lg outline-none focus:ring-1 transition-all duration-200"
+                style={{ borderColor: "#543D2E40", color: "#543D2E" }}
               />
             </div>
           </div>
 
-          {/* Email Field */}
+          {/* Email */}
           <div className="mb-4">
             <label
-              className="block text-green-800 font-semibold mb-2"
+              className="block font-semibold mb-2"
               data-aos="zoom-in-up"
+              style={{ color: "#543D2E" }}
             >
               Email Address
             </label>
             <div className="relative">
               <FaEnvelope
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-800"
+                className="absolute left-3 top-1/2 transform -translate-y-1/2"
                 size={18}
+                style={{ color: "#821435" }}
               />
               <input
                 type="email"
@@ -105,23 +112,26 @@ export default function SignupForm() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Enter your email"
-                className="w-full pl-10 pr-4 py-2 border border-green-300 rounded-lg focus:ring-1 focus:ring-green-400 transition-all duration-200 outline-none"
+                className="w-full pl-10 pr-4 py-2 border rounded-lg outline-none focus:ring-1 transition-all duration-200"
+                style={{ borderColor: "#543D2E40", color: "#543D2E" }}
               />
             </div>
           </div>
 
-          {/* Password Field */}
+          {/* Password */}
           <div className="mb-4">
             <label
-              className="block text-green-800 font-semibold mb-2"
+              className="block font-semibold mb-2"
               data-aos="zoom-in-up"
+              style={{ color: "#543D2E" }}
             >
               Password
             </label>
             <div className="relative">
               <FaLock
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-800"
+                className="absolute left-3 top-1/2 transform -translate-y-1/2"
                 size={18}
+                style={{ color: "#821435" }}
               />
               <input
                 type={showPassword ? "text" : "password"}
@@ -129,30 +139,34 @@ export default function SignupForm() {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Enter your password"
-                className="w-full pl-10 pr-10 py-2 border border-green-300 outline-none rounded-lg focus:ring-1 focus:ring-green-400 transition-all duration-200"
+                className="w-full pl-10 pr-10 py-2 border rounded-lg outline-none focus:ring-1 transition-all duration-200"
+                style={{ borderColor: "#543D2E40", color: "#543D2E" }}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-700"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                style={{ color: "#821435" }}
               >
                 {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
               </button>
             </div>
           </div>
 
-          {/* Confirm Password Field */}
+          {/* Confirm Password */}
           <div className="mb-6">
             <label
-              className="block text-green-800 font-semibold mb-2"
+              className="block font-semibold mb-2"
               data-aos="zoom-in-up"
+              style={{ color: "#543D2E" }}
             >
               Confirm Password
             </label>
             <div className="relative">
               <FaLock
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-800"
+                className="absolute left-3 top-1/2 transform -translate-y-1/2"
                 size={18}
+                style={{ color: "#821435" }}
               />
               <input
                 type={showConfirmPassword ? "text" : "password"}
@@ -160,18 +174,16 @@ export default function SignupForm() {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 placeholder="Confirm your password"
-                className="w-full pl-10 pr-10 py-2 border border-green-300 outline-none rounded-lg focus:ring-1 focus:ring-green-400 transition-all duration-200"
+                className="w-full pl-10 pr-10 py-2 border rounded-lg outline-none focus:ring-1 transition-all duration-200"
+                style={{ borderColor: "#543D2E40", color: "#543D2E" }}
               />
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-700"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                style={{ color: "#821435" }}
               >
-                {showConfirmPassword ? (
-                  <FaEyeSlash size={18} />
-                ) : (
-                  <FaEye size={18} />
-                )}
+                {showConfirmPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
               </button>
             </div>
           </div>
@@ -180,17 +192,24 @@ export default function SignupForm() {
           <button
             onClick={handleSubmit}
             type="submit"
-            className="w-full bg-gradient-to-r from-green-400 to-green-500 text-white font-bold py-2 px-4 rounded transform hover:scale-101 transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="w-full font-bold py-2 px-4 rounded transform hover:scale-101 transition-all duration-300 shadow-lg hover:shadow-xl"
+            style={{
+              backgroundColor: "#821435",
+              color: "white",
+            }}
+            onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#543D2E")}
+            onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#821435")}
           >
             Sign Up
           </button>
 
           {/* Login Link */}
-          <div className="mt-6 text-center text-green-800">
-            <span>Already have an account? </span>
+          <div className="mt-6 text-center font-medium">
+            <span style={{ color: "#543D2E" }}>Already have an account? </span>
             <Link
               to="/login"
-              className="text-green-800 hover:text-green-600 hover:underline font-medium"
+              className="hover:underline"
+              style={{ color: "#821435" }}
             >
               Login
             </Link>
