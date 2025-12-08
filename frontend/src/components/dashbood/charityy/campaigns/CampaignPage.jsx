@@ -1,119 +1,41 @@
-// import React from "react";
+import React, { useState } from "react";
 
-// export default function CampaignPage() {
-//   const campaigns = [
-//     {
-//       name: "Health Aid",
-//       category: "Medical",
-//       goal: "$50,000",
-//       raised: "$25,000",
-//       status: "Approved",
-//     },
-//     {
-//       name: "Education Fund",
-//       category: "Education",
-//       goal: "$40,000",
-//       raised: "$18,500",
-//       status: "Pending",
-//     },
-//   ];
-
-//   return (
-//     <div className="w-full bg-white rounded-2xl shadow-md p-6">
-//       <h2 className="text-2xl font-bold text-gray-800 mb-6">
-//         Existing Campaigns
-//       </h2>
-
-//       <div className="overflow-x-auto">
-//         <table className="w-full border-collapse">
-//           <thead>
-//             <tr className="bg-gray-100 text-left text-sm text-gray-700">
-//               <th className="p-3">Campaign</th>
-//               <th className="p-3">Category</th>
-//               <th className="p-3">Goal</th>
-//               <th className="p-3">Raised</th>
-//               <th className="p-3">Status</th>
-//             </tr>
-//           </thead>
-
-//           <tbody>
-//             {campaigns.map((item, i) => (
-//               <tr key={i} className="border-b text-sm hover:bg-gray-50">
-//                 <td className="p-3 font-medium">{item.name}</td>
-//                 <td className="p-3">{item.category}</td>
-//                 <td className="p-3 font-semibold">{item.goal}</td>
-//                 <td className="p-3 font-semibold">{item.raised}</td>
-//                 <td className="p-3">
-//                   <span
-//                     className={`px-3 py-1 rounded-full text-xs font-semibold
-//                       ${item.status === "Approved" && "bg-green-100 text-green-700"}
-//                       ${item.status === "Pending" && "bg-yellow-100 text-yellow-700"}
-//                     `}
-//                   >
-//                     {item.status}
-//                   </span>
-//                 </td>
-//               </tr>
-//             ))}
-//           </tbody>
-//         </table>
-//       </div>
-//     </div>
-//   );
-// }
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-
-const ManageCampaigns = () => {
+const CampaignPage = () => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("Medical");
   const [goalAmount, setGoalAmount] = useState("");
+
+  // Dummy campaigns list (local state)
   const [campaigns, setCampaigns] = useState([]);
 
-  const fetchCampaigns = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/api/campaign/");
-      setCampaigns(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchCampaigns();
-  }, []);
-
-  const handleCreateCampaign = async (e) => {
+  const handleCreateCampaign = (e) => {
     e.preventDefault();
 
-    try {
-      await axios.post("http://localhost:5000/api/campaign/create", {
-        title,
-        category,
-        goalAmount,
-      });
+    const newCampaign = {
+      _id: Date.now(),
+      title,
+      category,
+      goalAmount,
+      raisedAmount: 0,
+    };
 
-      setTitle("");
-      setGoalAmount("");
-      fetchCampaigns();
-      alert("Campaign Created!");
-    } catch (error) {
-      console.log(error);
-      alert("Error creating campaign");
-    }
+    setCampaigns([...campaigns, newCampaign]);
+
+    setTitle("");
+    setGoalAmount("");
+
+    alert("Campaign Created!");
   };
 
   return (
     <div className="min-h-screen bg-[#f4efeb] p-6 md:p-12">
-      {/* Page Title */}
       <h1 className="text-3xl font-semibold mb-6">Manage Campaigns</h1>
 
-      {/* Create Campaign Card */}
+      {/* Create Campaign */}
       <div className="bg-white shadow p-6 rounded-xl mb-10">
         <h2 className="text-xl font-semibold mb-5">Create New Campaign</h2>
 
         <form onSubmit={handleCreateCampaign}>
-          {/* Campaign Name */}
           <label className="font-medium">Campaign Name</label>
           <input
             type="text"
@@ -124,7 +46,6 @@ const ManageCampaigns = () => {
             required
           />
 
-          {/* Category */}
           <label className="font-medium">Category</label>
           <select
             value={category}
@@ -137,7 +58,6 @@ const ManageCampaigns = () => {
             <option>Emergency</option>
           </select>
 
-          {/* Goal Amount */}
           <label className="font-medium">Goal Amount</label>
           <input
             type="number"
@@ -148,7 +68,6 @@ const ManageCampaigns = () => {
             required
           />
 
-          {/* Button */}
           <button
             type="submit"
             className="px-6 py-3 bg-[#6b1d1d] text-white rounded-lg hover:bg-[#561616] transition"
@@ -164,7 +83,6 @@ const ManageCampaigns = () => {
 
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
-            {/* Table Header */}
             <thead>
               <tr className="bg-[#6b1d1d] text-white text-left">
                 <th className="py-3 px-4">Campaign</th>
@@ -175,22 +93,16 @@ const ManageCampaigns = () => {
               </tr>
             </thead>
 
-            {/* Table Body */}
             <tbody>
               {campaigns.map((c) => (
-                <tr
-                  key={c._id}
-                  className="border-b border-gray-200 hover:bg-gray-50"
-                >
+                <tr key={c._id} className="border-b border-gray-200 hover:bg-gray-50">
                   <td className="py-3 px-4">{c.title}</td>
                   <td className="py-3 px-4">{c.category}</td>
                   <td className="py-3 px-4">{c.goalAmount}</td>
                   <td className="py-3 px-4">{c.raisedAmount}</td>
                   <td className="py-3 px-4">
                     {c.raisedAmount >= c.goalAmount ? (
-                      <span className="text-green-600 font-medium">
-                        Completed
-                      </span>
+                      <span className="text-green-600 font-medium">Completed</span>
                     ) : (
                       <span className="text-red-600 font-medium">Active</span>
                     )}
@@ -211,4 +123,4 @@ const ManageCampaigns = () => {
   );
 };
 
-export default ManageCampaigns;
+export default CampaignPage;
