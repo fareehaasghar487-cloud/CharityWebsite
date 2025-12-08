@@ -2,109 +2,29 @@ import React, { useEffect } from "react";
 import { FaBullseye, FaCheckCircle, FaCalendarAlt } from "react-icons/fa";
 import AOS from "aos";
 import "aos/dist/aos.css";
-
-const campaigns = [
-  {
-    id: 1,
-    name: "Medical Aid for Children",
-    category: "Health",
-    goal: 100000,
-    raised: 65000,
-    startDate: "2023-05-01",
-    endDate: "2023-12-31",
-    description:
-      "Providing medical assistance to underprivileged children in rural areas.",
-    image:
-      "https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    id: 2,
-    name: "Education for All",
-    category: "Education",
-    goal: 100000,
-    raised: 42000,
-    startDate: "2023-06-15",
-    endDate: "2023-11-30",
-    description:
-      "Building schools and providing educational materials for children in need.",
-    image:
-      "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1000&q=80",
-  },
-  {
-    id: 3,
-    name: "Flood Relief Fund",
-    category: "Relief",
-    goal: 200000,
-    raised: 176000,
-    startDate: "2023-07-01",
-    endDate: "2023-10-31",
-    description:
-      "Helping communities affected by recent floods with essential supplies and rebuilding efforts.",
-    image:
-      "https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    id: 4,
-    name: "Food for Families",
-    category: "Hunger",
-    goal: 80000,
-    raised: 55000,
-    startDate: "2023-08-01",
-    endDate: "2023-12-15",
-    description:
-      "Distributing food packages to low-income families to fight hunger.",
-    image:
-      "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    id: 5,
-    name: "Clean Water Project",
-    category: "Environment",
-    goal: 120000,
-    raised: 90000,
-    startDate: "2023-09-10",
-    endDate: "2024-02-28",
-    description:
-      "Building wells and providing clean water to communities in need.",
-    image:
-      "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=1000&q=80",
-  },
-  {
-    id: 6,
-    name: "Hunger Free Drive",
-    category: "Food & Nutrition",
-    goal: 120000,
-    raised: 47000,
-    startDate: "2023-09-01",
-    endDate: "2024-02-28",
-    description:
-      "Distributing meals and ration packs to homeless families and underprivileged communities to fight hunger and malnutrition.",
-    image:
-      "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1200&q=80",
-  },
-];
+import { useGetAllCampaignsQuery } from "../../../Redux/slices/CampaignApi";
 
 const CampaignCard = () => {
+  const { data: campaigns = [], isLoading, error } = useGetAllCampaignsQuery();
+
   useEffect(() => {
     AOS.init({ duration: 1200, once: true });
   }, []);
 
+  if (isLoading) return <p className="text-center py-10">Loading campaigns...</p>;
+  if (error) return <p className="text-center py-10 text-red-600">Failed to load campaigns.</p>;
+
   return (
     <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-6">
-        {/* Title */}
-        <h2
-          className="text-4xl font-bold text-center mb-14"
-          data-aos="fade-down"
-        >
+        <h2 className="text-4xl font-bold text-center mb-14" data-aos="fade-down">
           <span className="text-[#821435]">Active</span> Campaigns
         </h2>
 
-        {/* Campaign Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
           {campaigns.map((campaign, index) => {
             const progress = Math.min(
-              (campaign.raised / campaign.goal) * 100,
+              (campaign.raisedAmount / campaign.goalAmount) * 100,
               100
             );
 
@@ -114,18 +34,20 @@ const CampaignCard = () => {
 
             return (
               <div
-                key={campaign.id}
+                key={campaign._id}
                 data-aos="fade-up"
                 data-aos-delay={index * 100}
                 className="bg-white rounded-2xl shadow-xl overflow-hidden border border-[#821435] hover:shadow-2xl transition duration-500 group flex flex-col"
               >
                 {/* Image */}
                 <div className="h-65 w-full relative overflow-hidden">
-                  <img
-                    src={campaign.image}
-                    alt={campaign.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
+                  {campaign.image && (
+                    <img
+                      src={campaign.image}
+                      alt={campaign.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  )}
                   <div className="absolute top-3 right-3 bg-[#821435] text-white text-xs px-3 py-1 rounded-full font-medium">
                     {campaign.category}
                   </div>
@@ -139,7 +61,7 @@ const CampaignCard = () => {
                 {/* Content */}
                 <div className="p-6 pt-1 flex flex-col flex-grow">
                   <h3 className="text-2xl font-semibold text-black mb-2">
-                    {campaign.name}
+                    {campaign.title}
                   </h3>
                   <p className="text-sm text-black mb-4 line-clamp-3 flex-grow">
                     {campaign.description}
@@ -148,11 +70,11 @@ const CampaignCard = () => {
                   <div className="mb-5 space-y-2 text-sm text-black my-auto">
                     <p className="flex items-center gap-2">
                       <FaBullseye className="text-[#821435]" />
-                      Goal: QAR {campaign.goal.toLocaleString()}
+                      Goal: QAR {campaign.goalAmount.toLocaleString()}
                     </p>
                     <p className="flex items-center gap-2">
                       <FaCheckCircle className="text-[#543D2E]" />
-                      Raised: QAR {campaign.raised.toLocaleString()}
+                      Raised: QAR {campaign.raisedAmount.toLocaleString()}
                     </p>
                     <p className="flex items-center gap-2">
                       <FaCalendarAlt className="text-[#821435]" />

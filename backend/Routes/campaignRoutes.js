@@ -5,11 +5,13 @@ import {
   getCampaignById,
   updateCampaign,
   deleteCampaign,
-} from "../controllers/campaignController.js";
+} from "../Controllers/CampaignControllers.js";
+import upload from "../MiddleWare/multer.js";
+
 
 const router = express.Router();
 
-router.post("/create-campaign", createCampaign);
+router.post("/create-campaign", upload.single("image"), createCampaign);
 router.get("/get-all-campaigns", getAllCampaigns);
 router.get("/get-one-campaign/:id", getCampaignById);
 router.put("/update-campaign/:id", updateCampaign);

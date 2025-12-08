@@ -56,14 +56,22 @@ export const verifyUser  = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
 
   if (!user) return res.status(404).json({ message: "User not found" });
-  if (user.otp !== otp) return res.status(400).json({ message: "Invalid or expired OTP" });
-  if (user.otpExpires < Date.now()) return res.status(400).json({ message: "OTP has expired" });
+
+  // Convert both OTPs to string before comparison
+  if (user.otp.toString() !== otp.toString()) 
+    return res.status(400).json({ message: "Invalid or expired OTP" });
+
+  if (user.otpExpires < Date.now()) 
+    return res.status(400).json({ message: "OTP has expired" });
 
   user.isVerified = true;
+  user.otp = null;          // Optional: clear OTP after verification
+  user.otpExpires = null;   // Optional
   await user.save();
 
   res.status(200).json({ message: "Your account verified successfully" });
 });
+
 
 // Login API
 export const login = asyncHandler(async (req, res) => {

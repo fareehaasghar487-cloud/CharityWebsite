@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useVerifyOTPMutation } from "../../Redux/slices/UserApi";
 
 export default function OtpVerify() {
     const navigate = useNavigate();
-    const email = localStorage.getItem("otpEmail");
-   const [verifyOtp] = useVerifyOTPMutation();
+    const location = useLocation();
+
+    // Use email from localStorage or from navigation state
+    const email = location.state?.email || localStorage.getItem("otpEmail");
     const [otp, setOtp] = useState("");
 
-  
+    const [verifyOtp, { isLoading }] = useVerifyOTPMutation();
 
     const handleVerify = async () => {
         if (!otp) {
@@ -18,24 +20,29 @@ export default function OtpVerify() {
         }
 
         try {
-            const res = await verifyOtp({ email, otp }).unwrap();
+            // Convert OTP to string to avoid type mismatch
+            const res = await verifyOtp({ email, otp: otp.toString() }).unwrap();
             console.log(res);
 
             toast.success("OTP Verified Successfully");
 
-            // Clear email
+            // Clear email after verification
             localStorage.removeItem("otpEmail");
 
             navigate("/login");
         } catch (error) {
-            toast.error(error?.response?.data?.message || "Invalid OTP");
+            // Handle RTK Query errors properly
+            const message =
+                error?.data?.message ||
+                error?.error ||
+                "Invalid OTP";
+            toast.error(message);
         }
     };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
             <div className="bg-white shadow-md rounded-lg p-6 max-w-md w-full text-center">
-
                 <h2 className="text-2xl font-bold mb-3">Verify Your Email</h2>
                 <p className="text-gray-600 mb-4">
                     OTP sent to <b>{email}</b>
@@ -51,12 +58,12 @@ export default function OtpVerify() {
 
                 <button
                     onClick={handleVerify}
-                    className="w-full py-2 rounded font-bold text-white"
+                    disabled={isLoading}
+                    className="w-full py-2 rounded font-bold text-white disabled:opacity-50"
                     style={{ background: "#821435" }}
                 >
-                    Verify OTP
+                    {isLoading ? "Verifying..." : "Verify OTP"}
                 </button>
-
             </div>
         </div>
     );
