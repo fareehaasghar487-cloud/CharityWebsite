@@ -11,8 +11,8 @@ import {
   myProfile,
   changePassword,
   updateProfile,
-  verifyUser,
-} from "../Controllers/UserControllers.js"; // Make sure the path and casing match
+  verifyUser, 
+} from "../Controllers/UserControllers.js";
 
 
 import { LoginRequired } from "../Auth/LoginRequired.js";
@@ -27,7 +27,7 @@ router.post("/verify-otp", verifyUser);
 router.post("/forget-password", forgetPassword);
 router.post("/reset-password", resetPassword);
 router.post("/logout", logout);
-
+// router.post("/verify-user", verifyUser);
 // Protected routes (require authentication)
 router.get("/my-profile", LoginRequired, myProfile);
 router.put("/change-password", LoginRequired, changePassword);

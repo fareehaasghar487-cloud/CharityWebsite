@@ -22,7 +22,9 @@ app.get("/", (req, res) => {
   res.send("Backend is running....");
 });
 import userRoutes from "./Routes/userRoutes.js";
+import campaignRoutes from "./Routes/campaignRoutes.js";
 app.use(userRoutes);
+app.use(campaignRoutes);
 
 
 app.listen(PORT, () => console.log(`🚀 Server is running on port ${PORT}`));
