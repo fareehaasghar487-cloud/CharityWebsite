@@ -25,9 +25,8 @@ router.post("/signup", signup);
 router.post("/login", login);
 router.post("/verify-otp", verifyUser);
 router.post("/forget-password", forgetPassword);
-router.post("/reset-password", resetPassword);
+ router.post("/reset-password", resetPassword);
 router.post("/logout", logout);
-// router.post("/verify-user", verifyUser);
 // Protected routes (require authentication)
 router.get("/my-profile", LoginRequired, myProfile);
 router.put("/change-password", LoginRequired, changePassword);

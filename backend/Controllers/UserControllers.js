@@ -114,18 +114,29 @@ export const forgetPassword = asyncHandler(async (req, res) => {
 
 // Reset Password API
 export const resetPassword = asyncHandler(async (req, res) => {
-  const { email, otp, newPassword, confirmPassword} = req.body;
-  const user = await User.findOne({ email });
+  const { email, otp, newPassword, confirmPassword } = req.body;
 
+  if (!email || !otp || !newPassword || !confirmPassword) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  if (newPassword !== confirmPassword) {
+    return res.status(400).json({ message: "Passwords do not match" });
+  }
+
+  const user = await User.findOne({ email });
   if (!user) return res.status(404).json({ message: "User not found" });
-  if (user.otp !== otp || user.otpExpires < Date.now()) {
+
+  if (user.otp.toString() !== otp.toString() || user.otpExpires < Date.now()) {
     return res.status(400).json({ message: "Invalid or expired OTP" });
   }
 
-  const hashedPassword = await bcrypt.hash(newPassword,confirmPassword, 10);
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+
   user.password = hashedPassword;
   user.otp = null;
   user.otpExpires = null;
+
   await user.save();
 
   res.status(200).json({ message: "Password reset successfully" });
