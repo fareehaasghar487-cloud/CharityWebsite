@@ -7,8 +7,7 @@ export default function OtpVerify() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Use email from localStorage or from navigation state
-    const email = location.state?.email || localStorage.getItem("otpEmail");
+    const email = location.state?.email;
     const [otp, setOtp] = useState("");
 
     const [verifyOtp, { isLoading }] = useVerifyOTPMutation();
@@ -20,30 +19,23 @@ export default function OtpVerify() {
         }
 
         try {
-            // Convert OTP to string to avoid type mismatch
             const res = await verifyOtp({ email, otp: otp.toString() }).unwrap();
-            console.log(res);
 
             toast.success("OTP Verified Successfully");
 
-            // Clear email after verification
-            localStorage.removeItem("otpEmail");
+            // Navigate to Reset Password page
+            navigate("/reset-password", { state: { email } });
 
-            navigate("/login");
         } catch (error) {
-            // Handle RTK Query errors properly
-            const message =
-                error?.data?.message ||
-                error?.error ||
-                "Invalid OTP";
-            toast.error(message);
+            toast.error(error?.data?.message || "Invalid OTP");
         }
     };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
             <div className="bg-white shadow-md rounded-lg p-6 max-w-md w-full text-center">
-                <h2 className="text-2xl font-bold mb-3">Verify Your Email</h2>
+                <h2 className="text-2xl font-bold mb-3">Verify Email</h2>
+
                 <p className="text-gray-600 mb-4">
                     OTP sent to <b>{email}</b>
                 </p>

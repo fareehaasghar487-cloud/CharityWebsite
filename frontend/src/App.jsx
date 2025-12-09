@@ -21,6 +21,7 @@ import DonorSettings from "./components/dashbood/charityy/settings/DonorSettings
 import DonorProfile from "./components/dashbood/charityy/profile/DonorProfile";
 import VerifyOTP from "./pages/VerifyOTP";
 import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 
 
@@ -53,7 +54,9 @@ const Router = createBrowserRouter([
       { path: "/login", element: <LoginForm /> },
       { path: "/signup", element: <SignupForm /> },
       { path: "/verify-otp", element: <VerifyOTP /> },
-      { path: "/forgot-password", element: <ForgotPassword /> }
+      { path: "/forgot-password", element: <ForgotPassword /> },
+      { path: "/reset-password", element: <ResetPassword /> },
+
 
     ],
 

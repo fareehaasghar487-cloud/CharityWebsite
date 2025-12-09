@@ -10,7 +10,6 @@ export default function ForgotPassword() {
     const [email, setEmail] = useState("");
     const navigate = useNavigate();
 
-    // RTK Query mutation
     const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
 
     useEffect(() => {
@@ -29,7 +28,7 @@ export default function ForgotPassword() {
             const res = await forgotPassword({ email }).unwrap();
             toast.success(res.message || "OTP sent to your email!");
 
-            // Navigate to OTP verification page and pass email
+            // Pass email to OTP page via state
             navigate("/verify-otp", { state: { email } });
         } catch (error) {
             toast.error(error?.data?.message || "Something went wrong");
@@ -37,24 +36,10 @@ export default function ForgotPassword() {
     };
 
     return (
-        <div
-            className="min-h-screen flex items-center justify-center px-4 sm:px-8 md:px-12 lg:px-16 py-32"
-            style={{ backgroundColor: "#F7EFEA" }}
-        >
-            <div
-                className="w-full max-w-3xl bg-white shadow-xl rounded-lg overflow-hidden border"
-                style={{ borderColor: "#543D2E40" }}
-            >
-                {/* Header */}
-                <div
-                    className="py-6 px-4 sm:px-8 text-center"
-                    style={{ backgroundColor: "#82143520" }}
-                >
-                    <h1
-                        className="font-serif text-2xl sm:text-3xl font-bold"
-                        data-aos="zoom-out-up"
-                        style={{ color: "#543D2E" }}
-                    >
+        <div className="min-h-screen flex items-center justify-center px-4 py-32" style={{ backgroundColor: "#F7EFEA" }}>
+            <div className="w-full max-w-3xl bg-white shadow-xl rounded-lg overflow-hidden border" style={{ borderColor: "#543D2E40" }}>
+                <div className="py-6 px-4 sm:px-8 text-center" style={{ backgroundColor: "#82143520" }}>
+                    <h1 className="font-serif text-2xl sm:text-3xl font-bold" data-aos="zoom-out-up" style={{ color: "#543D2E" }}>
                         Forgot Password
                     </h1>
                     <p className="mt-2 text-sm" style={{ color: "#543D2E" }}>
@@ -62,23 +47,13 @@ export default function ForgotPassword() {
                     </p>
                 </div>
 
-                {/* Body */}
                 <div className="p-6 sm:p-8">
-                    {/* Email Field */}
                     <div className="mb-6">
-                        <label
-                            className="block font-semibold mb-2"
-                            data-aos="zoom-in-up"
-                            style={{ color: "#543D2E" }}
-                        >
+                        <label className="block font-semibold mb-2" data-aos="zoom-in-up" style={{ color: "#543D2E" }}>
                             Email Address
                         </label>
                         <div className="relative">
-                            <FaEnvelope
-                                className="absolute left-3 top-1/2 transform -translate-y-1/2"
-                                size={18}
-                                style={{ color: "#821435" }}
-                            />
+                            <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2" size={18} style={{ color: "#821435" }} />
                             <input
                                 type="email"
                                 value={email}
@@ -90,24 +65,16 @@ export default function ForgotPassword() {
                         </div>
                     </div>
 
-                    {/* Submit Button */}
                     <button
                         type="submit"
                         onClick={handleSubmit}
                         disabled={isLoading}
-                        className="w-full font-bold py-2 px-4 rounded transform hover:scale-101 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full font-bold py-2 px-4 rounded shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                         style={{ backgroundColor: "#821435", color: "white" }}
-                        onMouseOver={(e) =>
-                            (e.currentTarget.style.backgroundColor = !isLoading ? "#543D2E" : "#821435")
-                        }
-                        onMouseOut={(e) =>
-                            (e.currentTarget.style.backgroundColor = "#821435")
-                        }
                     >
                         {isLoading ? "Sending..." : "Send OTP"}
                     </button>
 
-                    {/* Back to Login */}
                     <div className="mt-6 text-center font-medium">
                         <span style={{ color: "#543D2E" }}>Remember your password? </span>
                         <Link to="/login" className="hover:underline" style={{ color: "#821435" }}>
