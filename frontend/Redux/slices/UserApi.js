@@ -1,11 +1,10 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const userApi = createApi({
     reducerPath: 'userApi',
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000' }),
     endpoints: (build) => ({
 
-        // ⭐ SIGNUP
         signup: build.mutation({
             query: (data) => ({
                 url: "/signup",
@@ -14,7 +13,6 @@ export const userApi = createApi({
             }),
         }),
 
-        // ⭐ LOGIN
         login: build.mutation({
             query: (data) => ({
                 url: "/login",
@@ -23,7 +21,6 @@ export const userApi = createApi({
             }),
         }),
 
-        // ⭐ VERIFY OTP
         verifyOTP: build.mutation({
             query: (data) => ({
                 url: "/verify-otp",
@@ -32,21 +29,19 @@ export const userApi = createApi({
             }),
         }),
 
-        // ⭐ FORGOT PASSWORD (Send OTP)
         forgotPassword: build.mutation({
             query: (data) => ({
                 url: "/forget-password",
                 method: "POST",
-                body: data,  // { email }
+                body: data,
             }),
         }),
 
-        // ⭐ RESET PASSWORD
         resetPassword: build.mutation({
             query: (data) => ({
                 url: "/reset-password",
                 method: "POST",
-                body: data,  // { email, otp, newPassword }
+                body: data,   // { email, otp, newPassword, confirmPassword }
             }),
         }),
     }),

@@ -24,7 +24,7 @@ export default function OtpVerify() {
             toast.success("OTP Verified Successfully");
 
             // Navigate to Reset Password page
-            navigate("/reset-password", { state: { email } });
+            navigate("/reset-password", { state: { email,otp} });
 
         } catch (error) {
             toast.error(error?.data?.message || "Invalid OTP");
