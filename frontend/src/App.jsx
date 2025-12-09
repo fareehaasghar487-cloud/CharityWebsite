@@ -22,7 +22,7 @@ import DonorProfile from "./components/dashbood/charityy/profile/DonorProfile";
 import VerifyOTP from "./pages/VerifyOTP";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
-
+import donorDashboard from "./pages/donorDashboard";
 
 
 
@@ -72,6 +72,7 @@ const Router = createBrowserRouter([
       { path: "reports", element: <DonorReports /> },
       { path: "settings", element: <DonorSettings /> },
       { path: "profile", element: <DonorProfile /> },
+      { path: "donorDashboard", element: <donorDashboard /> },
     ],
   }
 
