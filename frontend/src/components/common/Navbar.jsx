@@ -69,7 +69,7 @@ const Navbar = () => {
             </Link>
 
             <Link
-              to="/donationform"
+              to="/makedonation"
               className="px-4 py-2.5 bg-gradient-to-r from-[#543D2E] via-[#740e2d] to-[#821435] text-white text-[15px] font-bold rounded-md shadow-md hover:shadow-lg transition-all duration-300"
             >
               Donate Now
