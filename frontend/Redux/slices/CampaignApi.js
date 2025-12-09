@@ -8,10 +8,10 @@ export const campaignApi = createApi({
 
         // CREATE CAMPAIGN
         createCampaign: build.mutation({
-            query: (data) => ({
+            query: (formData) => ({
                 url: "/create-campaign",
                 method: "POST",
-                body: data,
+                body: formData,
             }),
         }),
 

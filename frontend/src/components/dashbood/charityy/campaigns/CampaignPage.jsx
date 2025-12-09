@@ -21,13 +21,17 @@ const CampaignPage = () => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [editId, setEditId] = useState(null); // For editing campaigns
+  const [editId, setEditId] = useState(null);
 
+  // RTK Query hooks
   const { data: campaigns = [], refetch } = useGetAllCampaignsQuery();
   const [createCampaign, { isLoading }] = useCreateCampaignMutation();
   const [updateCampaign] = useUpdateCampaignMutation();
   const [deleteCampaign] = useDeleteCampaignMutation();
 
+  // -------------------------------
+  // Handle image selection
+  // -------------------------------
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -36,7 +40,10 @@ const CampaignPage = () => {
     }
   };
 
-  const handleCreateCampaign = async (e) => {
+  // -------------------------------
+  // Handle create or update campaign
+  // -------------------------------
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title || !goalAmount) {
       toast.error("Please fill all required fields");
@@ -47,8 +54,8 @@ const CampaignPage = () => {
       const formData = new FormData();
       formData.append("title", title);
       formData.append("category", category);
-      formData.append("goalAmount", Number(goalAmount));
-      formData.append("raisedAmount", Number(raisedAmount));
+      formData.append("goalAmount", goalAmount);
+      formData.append("raisedAmount", raisedAmount);
       formData.append("status", status);
       formData.append("startDate", startDate);
       formData.append("endDate", endDate);
@@ -56,18 +63,17 @@ const CampaignPage = () => {
       if (image) formData.append("image", image);
 
       if (editId) {
-        // Update existing campaign
         await updateCampaign({ id: editId, data: formData }).unwrap();
         toast.success("Campaign Updated!");
         setEditId(null);
       } else {
-        // Create new campaign
         await createCampaign(formData).unwrap();
         toast.success("Campaign Created!");
       }
 
       // Reset form
       setTitle("");
+      setCategory("Medical");
       setGoalAmount("");
       setRaisedAmount(0);
       setStatus("Pending");
@@ -79,10 +85,14 @@ const CampaignPage = () => {
 
       refetch();
     } catch (error) {
+      console.error(error);
       toast.error(error?.data?.message || "Failed to save campaign");
     }
   };
 
+  // -------------------------------
+  // Fill form for editing campaign
+  // -------------------------------
   const handleEdit = (campaign) => {
     setEditId(campaign._id);
     setTitle(campaign.title);
@@ -96,15 +106,18 @@ const CampaignPage = () => {
     setPreview(campaign.image);
   };
 
+  // -------------------------------
+  // Delete a campaign
+  // -------------------------------
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this campaign?")) {
-      try {
-        await deleteCampaign(id).unwrap();
-        toast.success("Campaign deleted successfully");
-        refetch();
-      } catch (error) {
-        toast.error("Failed to delete campaign");
-      }
+    if (!window.confirm("Are you sure you want to delete this campaign?")) return;
+
+    try {
+      await deleteCampaign(id).unwrap();
+      toast.success("Campaign deleted successfully");
+      refetch();
+    } catch (error) {
+      toast.error("Failed to delete campaign");
     }
   };
 
@@ -115,12 +128,10 @@ const CampaignPage = () => {
       {/* Create/Edit Campaign */}
       <div className="bg-white shadow p-6 rounded-xl mb-10">
         <h2 className="text-xl font-semibold mb-5">{editId ? "Edit Campaign" : "Create New Campaign"}</h2>
-        <form onSubmit={handleCreateCampaign}>
-          {/* Campaign Form Inputs (same as your original form) */}
+        <form onSubmit={handleSubmit}>
           <label className="font-medium">Campaign Name</label>
           <input
             type="text"
-            placeholder="e.g. Food Relief Program"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="w-full mt-1 mb-4 p-3 border border-gray-300 rounded-lg"
@@ -146,7 +157,6 @@ const CampaignPage = () => {
           <label className="font-medium">Goal Amount</label>
           <input
             type="number"
-            placeholder="50000"
             value={goalAmount}
             onChange={(e) => setGoalAmount(e.target.value)}
             className="w-full mt-1 mb-4 p-3 border border-gray-300 rounded-lg"
@@ -156,7 +166,6 @@ const CampaignPage = () => {
           <label className="font-medium">Raised Amount</label>
           <input
             type="number"
-            placeholder="10000"
             value={raisedAmount}
             onChange={(e) => setRaisedAmount(e.target.value)}
             className="w-full mt-1 mb-4 p-3 border border-gray-300 rounded-lg"
@@ -205,13 +214,7 @@ const CampaignPage = () => {
             className="w-full mt-1 mb-2 p-3 border border-gray-300 rounded-lg"
           />
 
-          {preview && (
-            <img
-              src={preview}
-              alt="Preview"
-              className="w-32 h-32 object-cover rounded mb-4"
-            />
-          )}
+          {preview && <img src={preview} alt="Preview" className="w-32 h-32 object-cover rounded mb-4" />}
 
           <button
             type="submit"
@@ -245,15 +248,7 @@ const CampaignPage = () => {
             {campaigns.map((c) => (
               <tr key={c._id} className="border-b border-gray-200 hover:bg-gray-50">
                 <td className="py-3 px-4">
-                  {c.image ? (
-                    <img
-                      src={c.image}
-                      alt={c.title}
-                      className="w-20 h-20 object-cover rounded"
-                    />
-                  ) : (
-                    "No Image"
-                  )}
+                  {c.image ? <img src={c.image} alt={c.title} className="w-20 h-20 object-cover rounded" /> : "No Image"}
                 </td>
                 <td className="py-3 px-4">{c.title}</td>
                 <td className="py-3 px-4">{c.category}</td>
@@ -287,9 +282,7 @@ const CampaignPage = () => {
             ))}
           </tbody>
         </table>
-        {campaigns.length === 0 && (
-          <p className="text-center py-5 text-gray-500">No campaigns created yet.</p>
-        )}
+        {campaigns.length === 0 && <p className="text-center py-5 text-gray-500">No campaigns created yet.</p>}
       </div>
     </div>
   );

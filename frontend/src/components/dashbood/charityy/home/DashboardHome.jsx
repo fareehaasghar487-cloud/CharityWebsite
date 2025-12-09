@@ -15,7 +15,11 @@ export default function DashboardHome() {
   ];
 
   return (
-    <div className="w-full p-6 space-y-8">
+    <div className="w-full pt-24 p-6 space-y-8">
+      {/* 
+        pt-24 => adds top padding so content starts below the fixed navbar
+        Adjust pt-24 if your navbar height changes 
+      */}
 
       {/* ================== TOP STAT CARDS ================== */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -24,19 +28,14 @@ export default function DashboardHome() {
             key={i}
             className="bg-white rounded-2xl shadow-md p-6 border border-gray-100"
           >
-            <h3 className="text-gray-500 text-sm font-medium">
-              {item.title}
-            </h3>
-            <p className="mt-2 text-3xl font-bold text-[#8A1538]">
-              {item.value}
-            </p>
+            <h3 className="text-gray-500 text-sm font-medium">{item.title}</h3>
+            <p className="mt-2 text-3xl font-bold text-[#8A1538]">{item.value}</p>
           </div>
         ))}
       </div>
 
       {/* ================== CHARTS + TOP CAMPAIGNS ================== */}
       <div className="flex flex-col lg:flex-row gap-6">
-
         {/* -------- Charts Section -------- */}
         <div className="flex-1 bg-white rounded-2xl shadow-md p-6">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">
@@ -58,9 +57,7 @@ export default function DashboardHome() {
 
         {/* -------- Top Campaigns Box -------- */}
         <div className="w-full lg:w-[35%] bg-white rounded-2xl shadow-md p-6">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
-            Top Campaigns
-          </h2>
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">Top Campaigns</h2>
 
           <div className="space-y-4">
             {topCampaigns.map((campaign, i) => (
@@ -68,17 +65,12 @@ export default function DashboardHome() {
                 key={i}
                 className="flex items-center justify-between p-4 rounded-xl bg-gray-50 border"
               >
-                <span className="text-gray-700 font-medium">
-                  {campaign.name}
-                </span>
-                <span className="font-bold text-[#8A1538]">
-                  {campaign.amount}
-                </span>
+                <span className="text-gray-700 font-medium">{campaign.name}</span>
+                <span className="font-bold text-[#8A1538]">{campaign.amount}</span>
               </div>
             ))}
           </div>
         </div>
-
       </div>
     </div>
   );
