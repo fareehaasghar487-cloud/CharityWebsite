@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
-import { useGetProfileQuery, useUpdateProfileMutation } from "../../Redux/slices/userApi";
+import { useGetProfileQuery, useUpdateProfileMutation } from "../../Redux/slices/UserApi.js";
 
 const ProfilePage = () => {
   const { data: user, isLoading } = useGetProfileQuery();
