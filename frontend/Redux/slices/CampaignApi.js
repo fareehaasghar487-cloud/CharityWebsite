@@ -4,7 +4,7 @@ export const campaignApi = createApi({
   reducerPath: "campaignApi",
 
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api",
+    baseUrl: "https://charitywebsite.onrender.com/api",
     credentials: "include", // important if cookies/auth are used
   }),
 

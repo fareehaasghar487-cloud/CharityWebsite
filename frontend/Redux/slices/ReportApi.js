@@ -4,7 +4,7 @@ export const reportApi = createApi({
   reducerPath: "reportApi",
 
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000",
+    baseUrl: "https://charitywebsite.onrender.com",
     credentials: "include",
   }),
 
