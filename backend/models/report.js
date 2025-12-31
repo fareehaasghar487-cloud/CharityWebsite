@@ -1,14 +1,11 @@
-// models/reportModel.js
+// models/Report.js
 import mongoose from "mongoose";
 
 const reportSchema = new mongoose.Schema({
-  id: String,
-  campaign: String,
-  donated: String,
-  utilized: String,
-  beneficiaries: String,
-  status: String,
-  date: String,
+  campaign: { type: String, required: true },
+  type: { type: String, required: true },
+  generatedOn: { type: Date, default: Date.now },
+  status: { type: String, default: "In Progress" },
 });
 
 export default mongoose.model("Report", reportSchema);

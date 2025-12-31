@@ -1,54 +1,83 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const campaignApi = createApi({
-    reducerPath: "campaignApi",
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000' }),
+  reducerPath: "campaignApi",
 
-    endpoints: (build) => ({
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://localhost:5000/api",
+    credentials: "include", // important if cookies/auth are used
+  }),
 
-        // CREATE CAMPAIGN
-        createCampaign: build.mutation({
-            query: (formData) => ({
-                url: "/create-campaign",
-                method: "POST",
-                body: formData,
-            }),
-        }),
+  tagTypes: ["Campaign"],
 
-        // GET ALL CAMPAIGNS
-        getAllCampaigns: build.query({
-            query: () => "/get-all-campaigns",
-        }),
+  endpoints: (builder) => ({
 
-        // GET ONE CAMPAIGN
-        getCampaignById: build.query({
-            query: (id) => `/get-one-campaign/${id}`,
-        }),
-
-        // UPDATE CAMPAIGN
-        updateCampaign: build.mutation({
-            query: ({ id, data }) => ({
-                url: `/update-campaign/${id}`,
-                method: "PUT",
-                body: data,
-            }),
-        }),
-
-        // DELETE CAMPAIGN
-        deleteCampaign: build.mutation({
-            query: (id) => ({
-                url: `/delete-campaign/${id}`,
-                method: "DELETE",
-            }),
-        }),
-
+    // ================= CREATE CAMPAIGN =================
+    createCampaign: builder.mutation({
+      query: (formData) => ({
+        url: "/create-campaign",
+        method: "POST",
+        body: formData, // FormData for image upload
+      }),
+      invalidatesTags: ["Campaign"],
     }),
+
+    // ================= GET ALL CAMPAIGNS =================
+   getAllCampaigns: builder.query({
+      query: () => "/get-all-campaigns", // backend route for campaigns
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ _id }) => ({ type: "Campaign", id: _id })),
+              { type: "Campaign", id: "LIST" },
+            ]
+          : [{ type: "Campaign", id: "LIST" }],
+    }),
+
+
+    // ================= GET SINGLE CAMPAIGN =================
+    getCampaignById: builder.query({
+      query: (id) => `/get-one-campaign/${id}`,
+      providesTags: ["Campaign"],
+    }),
+
+    // ================= UPDATE CAMPAIGN =================
+    updateCampaign: builder.mutation({
+      query: ({ id, formData }) => ({
+        url: `/update-campaign/${id}`,
+        method: "PUT",
+        body: formData, // FormData again (optional image update)
+      }),
+      invalidatesTags: ["Campaign"],
+    }),
+
+    // ================= DELETE CAMPAIGN =================
+    deleteCampaign: builder.mutation({
+      query: (id) => ({
+        url: `/delete-campaign/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Campaign"],
+    }),
+
+    // ================= ADD DONATION =================
+    addDonation: builder.mutation({
+      query: (data) => ({
+        url: "/add-donation",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Campaign"],
+    }),
+
+  }),
 });
 
 export const {
-    useCreateCampaignMutation,
-    useGetAllCampaignsQuery,
-    useGetCampaignByIdQuery,
-    useUpdateCampaignMutation,
-    useDeleteCampaignMutation,
+  useCreateCampaignMutation,
+  useGetAllCampaignsQuery,
+  useGetCampaignByIdQuery,
+  useUpdateCampaignMutation,
+  useDeleteCampaignMutation,
+  useAddDonationMutation,
 } = campaignApi;

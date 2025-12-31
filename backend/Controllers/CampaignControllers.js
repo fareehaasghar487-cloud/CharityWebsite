@@ -60,10 +60,6 @@ export const createCampaign = asyncHandler(async (req, res) => {
     res.status(500).json({ message: error.message || "Server error" });
   }
 });
-
-
-
-
 // GET ALL
 export const getAllCampaigns = asyncHandler(async (req, res) => {
   const campaigns = await Campaign.find();

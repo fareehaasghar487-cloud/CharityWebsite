@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  FaHandHoldingHeart,
-  FaCalendar,
-  FaTelegramPlane,
-} from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { FaHandHoldingHeart, FaTelegramPlane } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
-import { SlPhone } from "react-icons/sl";
-import { MdOutlineEmail } from "react-icons/md";
 import { IoMdHeartEmpty } from "react-icons/io";
-import { AiOutlineFileProtect } from "react-icons/ai";
 import toast from "react-hot-toast";
+import { useCreateDonationMutation } from "../../../Redux/slices/DonationApi.js";
 
 export default function DonationForm() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { user } = useSelector((state) => state.auth);
+
+  // ✅ campaign from URL
+  const campaignFromURL = new URLSearchParams(location.search).get("campaign");
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -26,6 +26,30 @@ export default function DonationForm() {
     confirmation: false,
     price: "",
   });
+
+  const [createDonation, { isLoading }] = useCreateDonationMutation();
+
+  // ✅ auto-fill user data
+  useEffect(() => {
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        fullName: user.name || "",
+        phoneNumber: user.phone || "",
+        email: user.email || "",
+      }));
+    }
+  }, [user]);
+
+  // ✅ auto-fill campaign
+  useEffect(() => {
+    if (campaignFromURL) {
+      setFormData((prev) => ({
+        ...prev,
+        subject: decodeURIComponent(campaignFromURL),
+      }));
+    }
+  }, [campaignFromURL]);
 
   const handleChange = (e) => {
     const { name, value, files, type, checked } = e.target;
@@ -42,33 +66,25 @@ export default function DonationForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Simple front-end validation
-    if (!formData.fullName || !formData.email || !formData.price) {
+    if (!formData.price || !formData.subject) {
       toast.error("Please fill all required fields!");
       return;
     }
 
-    toast.success("Donation submitted successfully!");
+    if (!formData.confirmation) {
+      toast.error("Please confirm before proceeding.");
+      return;
+    }
 
-    // Reset form
-    setFormData({
-      fullName: "",
-      phoneNumber: "",
-      email: "",
-      subject: "",
-      message: "",
-      documentImg: null,
-      preference: "",
-      confirmation: false,
-      price: "",
+    navigate("/stripe-payment", {
+      state: { donationData: formData },
     });
-
-    navigate("/"); // redirect to home
   };
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40">
       <div className="max-w-3xl fixed z-50 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 mx-auto bg-white rounded-xl shadow-2xl overflow-hidden w-full max-h-[90vh]">
+
         {/* Header */}
         <div className="bg-[#493528] px-6 py-4 sticky top-0 z-10">
           <div className="flex items-center justify-between">
@@ -81,7 +97,7 @@ export default function DonationForm() {
                   Support Our Mission
                 </h1>
                 <p className="text-gray-200 mt-1">
-                  Fill out the form below to volunteer, donate, or ask us anything.
+                  Fill out the form below to donate.
                 </p>
               </div>
             </div>
@@ -97,6 +113,7 @@ export default function DonationForm() {
         {/* Form */}
         <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
           <form className="space-y-8" onSubmit={handleSubmit}>
+
             {/* Personal Info */}
             <div className="space-y-6">
               <div className="flex items-center space-x-2">
@@ -107,48 +124,23 @@ export default function DonationForm() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-[#493528] mb-2">
-                    Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    name="fullName"
-                    value={formData.fullName}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-[#493528] rounded-lg"
-                    placeholder="Enter your full name"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-[#493528] mb-2">
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    name="phoneNumber"
-                    value={formData.phoneNumber}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-[#493528] rounded-lg"
-                    placeholder="Enter your phone number"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-[#493528] mb-2">
-                  Email Address *
-                </label>
                 <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-[#493528] rounded-lg"
-                  placeholder="Enter your email address"
+                  value={formData.fullName}
+                  readOnly
+                  className="w-full px-3 py-2 border border-[#493528] rounded-lg bg-gray-100"
+                />
+                <input
+                  value={formData.phoneNumber}
+                  readOnly
+                  className="w-full px-3 py-2 border border-[#493528] rounded-lg bg-gray-100"
                 />
               </div>
+
+              <input
+                value={formData.email}
+                readOnly
+                className="w-full px-3 py-2 border border-[#493528] rounded-lg bg-gray-100"
+              />
             </div>
 
             {/* Help Section */}
@@ -164,27 +156,35 @@ export default function DonationForm() {
                 <label className="block text-sm font-medium text-[#493528] mb-2">
                   I Want To *
                 </label>
-                <select
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-[#493528] rounded-lg"
-                >
-                  <option value="">Select an option</option>
-                  <option value="Education for all">Education for all</option>
-                  <option value="Clean water project">Clean water project</option>
-                  <option value="Medical Aid for children">
-                    Medical Aid for children
-                  </option>
-                  <option value="Food for families">Food for families</option>
-                  <option value="Flood releif fund">Flood releif fund</option>
-                  <option value="Hunger free drive">Hunger free drive</option>
-                </select>
+
+                {campaignFromURL ? (
+                  <input
+                    type="text"
+                    value={formData.subject}
+                    readOnly
+                    className="w-full px-3 py-2 border border-[#493528] rounded-lg bg-gray-100"
+                  />
+                ) : (
+                  <select
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-[#493528] rounded-lg"
+                  >
+                    <option value="">Select an option</option>
+                    <option value="Education for all">Education for all</option>
+                    <option value="Clean water project">Clean water project</option>
+                    <option value="Medical Aid for children">Medical Aid for children</option>
+                    <option value="Food for families">Food for families</option>
+                    <option value="Flood relief fund">Flood relief fund</option>
+                    <option value="Hunger free drive">Hunger free drive</option>
+                  </select>
+                )}
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-[#493528] mb-2">
-                  Donation Amount (PKR) *
+                  Donation Amount
                 </label>
                 <input
                   type="number"
@@ -197,8 +197,8 @@ export default function DonationForm() {
               </div>
             </div>
 
-            {/* Message Section */}
-            <div className="space-y-6">
+            {/* Message */}
+            <div>
               <label className="block text-sm font-medium text-[#493528] mb-2">
                 Message
               </label>
@@ -207,13 +207,6 @@ export default function DonationForm() {
                 value={formData.message}
                 onChange={handleChange}
                 rows={4}
-                className="w-full px-3 py-2 border border-[#493528] rounded-lg"
-                placeholder="Tell us why you want to support our cause..."
-              ></textarea>
-              <input
-                type="file"
-                name="documentImg"
-                onChange={handleChange}
                 className="w-full px-3 py-2 border border-[#493528] rounded-lg"
               />
             </div>
@@ -228,27 +221,29 @@ export default function DonationForm() {
                 className="mt-1 w-4 h-4"
               />
               <p className="text-sm text-gray-600">
-                I confirm that the information I've provided is accurate and I consent to being contacted.
+                I confirm that the information I've provided is accurate.
               </p>
             </div>
 
             {/* Footer */}
             <div className="border-t border-[#493528] pt-6 flex justify-end space-x-4">
               <button
-                onClick={() => navigate("/")}
                 type="button"
+                onClick={() => navigate("/")}
                 className="px-6 py-2 border border-[#493528] text-[#493528] rounded-lg hover:bg-[#493528] hover:text-white"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-6 py-2 bg-[#493528] text-white rounded-lg hover:bg-[#3a2a1f] flex items-center space-x-2"
+                disabled={isLoading}
+                className="px-6 py-2 bg-[#493528] text-white rounded-lg flex items-center space-x-2"
               >
                 <FaTelegramPlane />
-                <span>Submit</span>
+                <span>{isLoading ? "Processing..." : "Next"}</span>
               </button>
             </div>
+
           </form>
         </div>
       </div>

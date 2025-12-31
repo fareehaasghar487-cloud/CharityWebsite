@@ -12,12 +12,13 @@ import { Link, NavLink } from "react-router-dom";
 
 const navItems = [
   { id: 1, icon: <FaHome />, name: "Dashboard", path: "/dashboard" },
+  { id: 8, icon: <FaUser />, name: "Users", path: "/dashboard/users" },
   { id: 2, icon: <FaDonate />, name: "My Donation", path: "/dashboard/mydonations" },
   { id: 3, icon: <FaChartLine />, name: "Campaigns", path: "/dashboard/campaigns" },
   { id: 4, icon: <FaWallet />, name: "Wallet", path: "/dashboard/wallet" },
   { id: 5, icon: <FaFileAlt />, name: "Report", path: "/dashboard/reports" },
   { id: 6, icon: <FaCog />, name: "Settings", path: "/dashboard/settings" },
-  { id: 7, icon: <FaUser />, name: "My Profile", path: "/dashboard/profile" },
+  
 ];
 
 const SideBar = () => {

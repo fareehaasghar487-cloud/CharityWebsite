@@ -11,7 +11,8 @@ import {
   myProfile,
   changePassword,
   updateProfile,
-  verifyUser, 
+  verifyOtp,
+  updateUserRole, 
 } from "../Controllers/UserControllers.js";
 
 
@@ -23,7 +24,7 @@ const router = express.Router();
 // Public routes
 router.post("/signup", signup);
 router.post("/login", login);
-router.post("/verify-otp", verifyUser);
+router.post("/verify-otp", verifyOtp);
 router.post("/forget-password", forgetPassword);
  router.post("/reset-password", resetPassword);
 router.post("/logout", logout);
@@ -36,5 +37,6 @@ router.put("/update-profile", LoginRequired, upload.single("profileImage"), upda
 router.get("/get-all-users", LoginRequired, getAllUsers);
 router.get("/get-one-user/:id", LoginRequired, getOneUser);
 router.delete("/delete-user/:id", LoginRequired, deleteUser);
+router.patch("/update-user-role/:id", LoginRequired, updateUserRole);
 
 export default router;

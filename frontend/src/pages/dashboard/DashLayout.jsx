@@ -1,16 +1,8 @@
-import React from 'react'
-// import {} from "../dashboard/"
-import { Outlet } from 'react-router-dom';
-export const DashLayout = () => {
-  return (
-    <div>DashLayout</div>
-  )
-}
-
 
 import { useState, useEffect } from "react";
 import NavbarDashb from '../../components/dashbood/common/NavbarDashb';
 import SideBar from '../../components/dashbood/common/SideBar';
+import { Outlet } from "react-router-dom";
 
 
 export default function DashboardLayout({ children }) {

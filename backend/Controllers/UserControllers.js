@@ -51,25 +51,37 @@ export const signup = asyncHandler(async (req, res) => {
 });
 
 // Verify OTP API
-export const verifyUser  = asyncHandler(async (req, res) => {
+export const verifyOtp = asyncHandler(async (req, res) => {
   const { email, otp } = req.body;
+
+  if (!email || !otp) {
+    return res.status(400).json({ message: "Email and OTP required" });
+  }
+
   const user = await User.findOne({ email });
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
 
-  if (!user) return res.status(404).json({ message: "User not found" });
+  if (!user.otp || !user.otpExpires) {
+    return res.status(400).json({ message: "OTP not found or expired" });
+  }
 
-  // Convert both OTPs to string before comparison
-  if (user.otp.toString() !== otp.toString()) 
-    return res.status(400).json({ message: "Invalid or expired OTP" });
+  if (user.otpExpires < Date.now()) {
+    return res.status(400).json({ message: "OTP expired" });
+  }
 
-  if (user.otpExpires < Date.now()) 
-    return res.status(400).json({ message: "OTP has expired" });
+  if (String(user.otp) !== String(otp)) {
+    return res.status(400).json({ message: "Invalid OTP" });
+  }
 
+  // ✅ Mark user as verified
   user.isVerified = true;
-  user.otp = null;          // Optional: clear OTP after verification
-  user.otpExpires = null;   // Optional
+  user.otp = null; 
+  user.otpExpires = null;
   await user.save();
 
-  res.status(200).json({ message: "Your account verified successfully" });
+  res.status(200).json({ message: "OTP verified successfully", isVerified: true });
 });
 
 
@@ -82,12 +94,12 @@ export const login = asyncHandler(async (req, res) => {
 
   const comparePassword = await bcrypt.compare(password, user.password);
   if (!comparePassword) return res.status(400).json({ message: "Email or password is incorrect" });
-  if (!user.isVerified) return res.status(401).json({ message: "Your account is not verified" });
+  if (!user.isVerified) return res.status(401).json({ message: "Your account is not verified" , isVerified: false});
 
   const token = await setUser(user);
   res.cookie("token", token);
 
-  res.status(200).json({ message: "Login successful", user });
+  res.status(200).json({ message: "Login successful", user, isVerified: user.isVerified });
 });
 
 // Forget Password API
@@ -114,25 +126,31 @@ export const forgetPassword = asyncHandler(async (req, res) => {
 
 // Reset Password API
 export const resetPassword = asyncHandler(async (req, res) => {
-  const { email, otp, newPassword, confirmPassword } = req.body;
+  const { email, otp, newPassword } = req.body;
+  console.log("RESET BODY:", req.body);
 
-  if (!email || !otp || !newPassword || !confirmPassword) {
+  if (!email || !otp || !newPassword) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
-  if (newPassword !== confirmPassword) {
-    return res.status(400).json({ message: "Passwords do not match" });
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
   }
 
-  const user = await User.findOne({ email });
-  if (!user) return res.status(404).json({ message: "User not found" });
+  if (!user.otp || !user.otpExpires) {
+    return res.status(400).json({ message: "No OTP found. Please request a new OTP." });
+  }
 
-  if (user.otp.toString() !== otp.toString() || user.otpExpires < Date.now()) {
-    return res.status(400).json({ message: "Invalid or expired OTP" });
+  if (String(user.otp) !== String(otp)) {
+    return res.status(400).json({ message: "Invalid OTP" });
+  }
+
+  if (user.otpExpires < Date.now()) {
+    return res.status(400).json({ message: "OTP has expired" });
   }
 
   const hashedPassword = await bcrypt.hash(newPassword, 10);
-
   user.password = hashedPassword;
   user.otp = null;
   user.otpExpires = null;
@@ -212,3 +230,16 @@ export const updateProfile = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Profile updated successfully", user: updatedUser });
 });
 
+// Update User Role (Admin only)
+export const updateUserRole = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { role } = req.body;
+
+  const user = await User.findById(id);
+  if (!user) return res.status(404).json({ message: "User not found" });
+
+  user.role = role;
+  await user.save();
+
+  res.status(200).json({ message: "User role updated successfully", user });
+});

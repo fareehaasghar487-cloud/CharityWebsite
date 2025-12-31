@@ -1,9 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FaBell } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const NavbarDashb = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef();
+  const navigate = useNavigate();
+
+  // Get user from Redux
+  const { user } = useSelector((state) => state.auth);
 
   // Close dropdown if clicked outside
   useEffect(() => {
@@ -17,9 +23,13 @@ const NavbarDashb = () => {
   }, []);
 
   const handleLogout = () => {
-    // Add your logout logic here
-    console.log("Logging out...");
-    // e.g., clear auth tokens and redirect
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
+
+  const handleProfile = () => {
+    navigate("/profile");
   };
 
   return (
@@ -49,7 +59,7 @@ const NavbarDashb = () => {
             onClick={() => setDropdownOpen(!dropdownOpen)}
           >
             <img
-              src="https://media.istockphoto.com/id/2151737526/photo/studio-portrait-of-elegant-man-dark-background.webp?a=1&b=1&s=612x612&w=0&k=20&c=HMdSi8qNYm6hJogQvEtJq6_8X9MEPXPaMBuy1LqRsn4="
+              src={user?.profileImage || "https://media.istockphoto.com/id/2151737526/photo/studio-portrait-of-elegant-man-dark-background.webp"}
               alt="Profile"
               className="w-full h-full object-cover"
             />
@@ -60,7 +70,7 @@ const NavbarDashb = () => {
             <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md border border-gray-200 z-50">
               <button
                 className="w-full text-left px-4 py-2 hover:bg-gray-100 transition"
-                onClick={() => console.log("Go to My Profile")}
+                onClick={handleProfile}
               >
                 My Profile
               </button>

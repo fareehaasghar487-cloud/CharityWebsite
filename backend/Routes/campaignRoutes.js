@@ -8,7 +8,6 @@ import {
 } from "../Controllers/CampaignControllers.js";
 import upload from "../MiddleWare/multer.js";
 
-
 const router = express.Router();
 
 router.post("/create-campaign", upload.single("image"), createCampaign);
