@@ -3,7 +3,6 @@ import { getUser } from "./jwt.js";
 export const LoginRequired = async (req, res, next) => {
   try {
     const token = req.cookies?.token;
-
     if (!token) {
       return res.status(401).json({ message: "No token found, please login first" });
     }

@@ -46,7 +46,8 @@ export const signup = asyncHandler(async (req, res) => {
   await sendMail(email, subject, html);
 
   res.status(200).json({
-    message: "User created successfully. Check your email to verify your account.",
+    message:
+      "User created successfully. Check your email to verify your account.",
   });
 });
 
@@ -77,29 +78,43 @@ export const verifyOtp = asyncHandler(async (req, res) => {
 
   // ✅ Mark user as verified
   user.isVerified = true;
-  user.otp = null; 
+  user.otp = null;
   user.otpExpires = null;
   await user.save();
 
-  res.status(200).json({ message: "OTP verified successfully", isVerified: true });
+  res
+    .status(200)
+    .json({ message: "OTP verified successfully", isVerified: true });
 });
-
 
 // Login API
 export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
 
-  if (!user) return res.status(404).json({ message: "User with this email not found" });
+  if (!user)
+    return res.status(404).json({ message: "User with this email not found" });
 
   const comparePassword = await bcrypt.compare(password, user.password);
-  if (!comparePassword) return res.status(400).json({ message: "Email or password is incorrect" });
-  if (!user.isVerified) return res.status(401).json({ message: "Your account is not verified" , isVerified: false});
+  if (!comparePassword)
+    return res.status(400).json({ message: "Email or password is incorrect" });
+  if (!user.isVerified)
+    return res
+      .status(401)
+      .json({ message: "Your account is not verified", isVerified: false });
 
   const token = await setUser(user);
-  res.cookie("token", token);
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // only true in production (HTTPS)
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    path: "/", // make sure cookie is accessible site-wide
+  });
 
-  res.status(200).json({ message: "Login successful", user, isVerified: user.isVerified });
+  res
+    .status(200)
+    .json({ message: "Login successful", user, isVerified: user.isVerified });
 });
 
 // Forget Password API
@@ -139,7 +154,9 @@ export const resetPassword = asyncHandler(async (req, res) => {
   }
 
   if (!user.otp || !user.otpExpires) {
-    return res.status(400).json({ message: "No OTP found. Please request a new OTP." });
+    return res
+      .status(400)
+      .json({ message: "No OTP found. Please request a new OTP." });
   }
 
   if (String(user.otp) !== String(otp)) {
@@ -206,7 +223,8 @@ export const changePassword = asyncHandler(async (req, res) => {
   if (!user) return res.status(404).json({ message: "User not found" });
 
   const isMatch = await bcrypt.compare(oldPassword, user.password);
-  if (!isMatch) return res.status(400).json({ message: "Old password is incorrect" });
+  if (!isMatch)
+    return res.status(400).json({ message: "Old password is incorrect" });
 
   user.password = await bcrypt.hash(newPassword, 10);
   await user.save();
@@ -227,7 +245,9 @@ export const updateProfile = asyncHandler(async (req, res) => {
 
   if (!updatedUser) return res.status(404).json({ message: "User not found" });
 
-  res.status(200).json({ message: "Profile updated successfully", user: updatedUser });
+  res
+    .status(200)
+    .json({ message: "Profile updated successfully", user: updatedUser });
 });
 
 // Update User Role (Admin only)

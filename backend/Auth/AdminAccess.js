@@ -1,11 +1,10 @@
 export const  AdminAccess = async(req , res , next) =>{
     try {
         const user = req.user;
-        
         if(!user){
             return res.status(401).json({message:"Unauthorized"});
         }
-        if(user.role !== "Admin"){
+        if(user.role !== "Admin" || user.role !== "!admin"){
             return res.status(403).json({message:"Access denied, Only Admin can access dashboard"});
         }
         next();
