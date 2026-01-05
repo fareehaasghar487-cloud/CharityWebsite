@@ -1,6 +1,8 @@
 export const  AdminAccess = async(req , res , next) =>{
     try {
+        console.log("AdminAccess middleware called", req.user);
         const user = req.user;
+
         if(!user){
             return res.status(401).json({message:"Unauthorized"});
         }
