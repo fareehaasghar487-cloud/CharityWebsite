@@ -1,9 +1,20 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const FAQs = () => {
   const [activeCategory, setActiveCategory] = useState("general");
   const [openItems, setOpenItems] = useState({});
+
+  // Initialize AOS
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+      easing: "ease-out-cubic",
+    });
+  }, []);
 
   const toggleItem = (id) => {
     setOpenItems((prev) => ({
@@ -135,8 +146,9 @@ const FAQs = () => {
   return (
     <div className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-6xl mx-auto">
+
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-16" data-aos="fade-up">
           <div className="inline-flex items-center justify-center p-4 bg-green-400 rounded-full shadow-lg mb-6">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -163,7 +175,7 @@ const FAQs = () => {
         </div>
 
         {/* Category Tabs */}
-        <div className="flex flex-wrap justify-center gap-4 mb-16">
+        <div className="flex flex-wrap justify-center gap-4 mb-16" data-aos="fade-up" data-aos-delay="100">
           {categories.map((category) => (
             <button
               key={category.id}
@@ -181,11 +193,13 @@ const FAQs = () => {
         </div>
 
         {/* FAQ Items */}
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-16 border border-gray-100">
-          {faqData[activeCategory].map((item) => (
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-16 border border-gray-100" data-aos="fade-up" data-aos-delay="200">
+          {faqData[activeCategory].map((item, idx) => (
             <div
               key={item.id}
               className="border-b border-gray-100 last:border-b-0 transition-all duration-300 hover:bg-gray-50"
+              data-aos="fade-up"
+              data-aos-delay={idx * 100}
             >
               <button
                 onClick={() => toggleItem(item.id)}
@@ -234,7 +248,7 @@ const FAQs = () => {
         </div>
 
         {/* Contact Support */}
-        <div className="relative bg-green-400 rounded-2xl shadow-2xl p-10 md:p-14 text-white text-center overflow-hidden">
+        <div className="relative bg-green-400 rounded-2xl shadow-2xl p-10 md:p-14 text-white text-center overflow-hidden" data-aos="fade-up" data-aos-delay="300">
           <div className="absolute -top-10 -right-10 w-28 h-28 rounded-full bg-white opacity-10"></div>
           <div className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full bg-white opacity-10"></div>
 
@@ -253,6 +267,7 @@ const FAQs = () => {
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );

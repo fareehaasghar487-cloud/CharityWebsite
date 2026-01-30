@@ -1,7 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+/* ✅ AOS IMPORTS */
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const ImpactShowcase = () => {
   const [activeTab, setActiveTab] = useState("all");
+
+  /* ✅ AOS INIT */
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+      easing: "ease-in-out",
+    });
+  }, []);
 
   const stats = [
     { value: "2.5M+", label: "Donations Processed", trend: "+15% this month" },
@@ -99,21 +112,21 @@ const ImpactShowcase = () => {
       author: "Ahmed Al-Thani",
       role: "Regular Donor",
       image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80",
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
     },
     {
       quote: "The Sandi integration has eliminated duplicate aid distribution, making our operations much more efficient.",
       author: "Fatima Al-Attiyah",
       role: "Charity Administrator",
       image:
-        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80",
+        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80",
     },
     {
       quote: "The compliance tools give us complete oversight while reducing our administrative workload significantly.",
       author: "Khalid Al-Sulaiti",
       role: "RACA Official",
       image:
-        "https://images.unsplash.com/photo-1552058544-f2b08422138a?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80",
+        "https://images.unsplash.com/photo-1552058544-f2b08422138a?auto=format&fit=crop&w=200&q=80",
     },
   ];
 
@@ -125,115 +138,62 @@ const ImpactShowcase = () => {
   return (
     <section className="py-20 bg-white relative overflow-hidden">
       <div className="container mx-auto px-4 relative z-10">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1 mb-4 text-sm font-semibold text-white bg-gradient-to-r from-[#821435] via-[#543D2E] to-[#821435] rounded-full">
-            Qatar's Premier Charity Platform
-          </span>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 py-2 text-gradient bg-clip-text text-transparent bg-gradient-to-r from-[#821435] via-[#543D2E] to-[#821435]">
+
+        {/* Header */}
+        <div className="text-center mb-16" data-aos="fade-up">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#821435]">
             Transforming Charitable Giving in Qatar
           </h2>
-          <p className="text-xl max-w-3xl mx-auto leading-relaxed text-[#821435]">
-            A comprehensive digital platform integrating with Sandi to bring transparency, efficiency, and trust to charitable donations across Qatar.
-          </p>
         </div>
 
-        {/* Stats Section */}
+        {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="bg-gradient-to-r from-[#821435] via-[#543D2E] to-[#821435] text-white rounded-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              data-aos="zoom-in"
+              data-aos-delay={index * 150}
+              className="bg-gradient-to-r from-[#821435] via-[#543D2E] to-[#821435] text-white rounded-2xl shadow-lg p-6 text-center"
             >
               <div className="text-4xl font-bold mb-2">{stat.value}</div>
-              <div className="font-semibold mb-1">{stat.label}</div>
+              <div className="font-semibold">{stat.label}</div>
               <div className="text-sm">{stat.trend}</div>
             </div>
           ))}
         </div>
 
-        {/* Features Section */}
-        <div className="mb-20">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold mb-4 text-[#821435]">Platform Features</h3>
-            <p className="max-w-2xl mx-auto text-[#543D2E]">
-              Advanced capabilities designed for all stakeholders in the charitable ecosystem
-            </p>
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-2 mb-10">
-            {["all", "transparency", "security", "integration", "management", "accessibility"].map((tab) => (
-              <button
-                key={tab}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${activeTab === tab
-                    ? "bg-gradient-to-r from-[#821435] via-[#543D2E] to-[#821435] text-white"
-                    : "bg-white text-[#821435] border border-[#821435] hover:bg-[#ffcccc]"
-                  }`}
-                onClick={() => setActiveTab(tab)}
-              >
-                {tab === "all" ? "All Features" : tab.charAt(0).toUpperCase() + tab.slice(1)}
-              </button>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {filteredFeatures.map((feature, index) => (
-              <div
-                key={index}
-                className="bg-gradient-to-r from-[#821435] via-[#543D2E] to-[#821435] text-white rounded-2xl shadow-lg p-6 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
-              >
-                <div className="mb-4 flex justify-center">{feature.icon}</div>
-                <h3 className="text-xl font-semibold mb-3 text-center">{feature.title}</h3>
-                <p className="text-center text-sm leading-relaxed">{feature.description}</p>
-              </div>
-            ))}
-          </div>
+        {/* Features */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+          {filteredFeatures.map((feature, index) => (
+            <div
+              key={index}
+              data-aos="fade-up"
+              data-aos-delay={index * 100}
+              className="bg-gradient-to-r from-[#821435] via-[#543D2E] to-[#821435] text-white rounded-2xl shadow-lg p-6"
+            >
+              <div className="mb-4 flex justify-center">{feature.icon}</div>
+              <h3 className="text-xl font-semibold mb-3 text-center">{feature.title}</h3>
+              <p className="text-center text-sm">{feature.description}</p>
+            </div>
+          ))}
         </div>
 
-        {/* User Testimonials */}
-        <div className="mb-16">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold mb-4 text-[#821435]">What Our Users Say</h3>
-            <p className="max-w-2xl mx-auto text-[#543D2E]">
-              Hear from stakeholders across the charitable ecosystem
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {userStories.map((story, index) => (
-              <div
-                key={index}
-                className="bg-gradient-to-r from-[#821435] via-[#543D2E] to-[#821435] text-white rounded-2xl shadow-lg p-6 transform transition-all duration-300 hover:shadow-xl"
-              >
-                <div className="flex items-center mb-4">
-                  <img
-                    src={story.image}
-                    alt={story.author}
-                    className="w-12 h-12 rounded-full object-cover mr-4 border-2 border-white"
-                  />
-                  <div>
-                    <h4 className="font-semibold">{story.author}</h4>
-                    <p className="text-sm">{story.role}</p>
-                  </div>
-                </div>
-                <p className="italic">"{story.quote}"</p>
-              </div>
-            ))}
-          </div>
+        {/* Testimonials */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          {userStories.map((story, index) => (
+            <div
+              key={index}
+              data-aos="fade-up"
+              data-aos-delay={index * 150}
+              className="bg-gradient-to-r from-[#821435] via-[#543D2E] to-[#821435] text-white rounded-2xl shadow-lg p-6"
+            >
+              <p className="italic mb-4">"{story.quote}"</p>
+              <h4 className="font-semibold">{story.author}</h4>
+              <p className="text-sm">{story.role}</p>
+            </div>
+          ))}
         </div>
 
-        {/* CTA */}
-        <div className="text-center">
-          <h3 className="text-2xl font-bold mb-6 text-[#821435]">Join Qatar's Trusted Charity Platform</h3>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button className="px-8 py-3 bg-gradient-to-r from-[#821435] via-[#543D2E] to-[#821435] text-white font-semibold rounded-lg shadow-md hover:opacity-90 transition-colors">
-              Register Your Charity
-            </button>
-            <button className="px-8 py-3 bg-white text-[#821435] border border-[#821435] font-semibold rounded-lg shadow-md hover:bg-[#ffcccc] transition-colors">
-              Make a Donation
-            </button>
-          </div>
-        </div>
       </div>
     </section>
   );
