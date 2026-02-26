@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const donationApi = createApi({
   reducerPath: "donationApi",
   baseQuery: fetchBaseQuery({
-    // baseUrl: "https://charitywebsite.onrender.com/api",
-    baseUrl: "http://localhost:5000",
+    baseUrl: "https://charitywebsite.onrender.com/api",
+    // baseUrl: "http://localhost:5000",
     credentials: "include", // ✅ important if using cookies auth
   }),
   tagTypes: ["Donations"],
