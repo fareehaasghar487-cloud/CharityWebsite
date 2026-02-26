@@ -37,13 +37,13 @@ mongoose
   .catch((err) => console.log("❌ Error in connecting database", err));
 
 // Routes
-app.use(userRoutes);
-app.use(campaignRoutes);
-app.use(donationRoutes);
-app.use(beneficiaryRoutes);
-app.use(charityRoutes);
-app.use(summaryRoute);
-app.use(reportRoutes);
+app.use("/api", userRoutes);
+app.use("/api", campaignRoutes);
+app.use("/api", donationRoutes);
+app.use("/api", beneficiaryRoutes);
+app.use("/api", charityRoutes);
+app.use("/api", summaryRoute);
+app.use("/api", reportRoutes);
 
 // Test route
 app.get("/hello", (req, res) => {

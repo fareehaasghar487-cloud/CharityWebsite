@@ -5,7 +5,6 @@ export const campaignApi = createApi({
 
   baseQuery: fetchBaseQuery({
     baseUrl: "https://charitywebsite.onrender.com/api",
-    // baseUrl: "http://localhost:5000",
     credentials: "include", // important if cookies/auth are used
   }),
 
