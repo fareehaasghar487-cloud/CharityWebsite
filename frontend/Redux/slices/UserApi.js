@@ -4,7 +4,7 @@ export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://charitywebsite.onrender.com",
-    // baseUrl: "http://localhost:5000",
+    baseUrl: "http://localhost:5000",
     credentials: "include", // send cookies automatically
   }),
   tagTypes: ["User"],

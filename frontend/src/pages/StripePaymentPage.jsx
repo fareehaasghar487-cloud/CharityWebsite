@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import { useCreateDonationMutation } from "../../Redux/slices/DonationApi.js";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -12,8 +11,6 @@ function StripeCheckoutForm({ donationData }) {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState(null);
-
-  const [createDonation] = useCreateDonationMutation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,15 +39,16 @@ function StripeCheckoutForm({ donationData }) {
       if (paymentIntent && paymentIntent.status === "succeeded") {
         setMessage("Payment successful! Saving donation...");
 
-        // ✅ Save donation to backend using RTK Query
-        await createDonation({
-          fullName: donationData.fullName,
-          email: donationData.email,
-          subject: donationData.subject,
-          message: donationData.message || "",
-          price: donationData.price,
-          confirmation: "Confirmed",
-        }).unwrap();
+        // ✅ Save donation using confirmPayment endpoint (doesn't require auth)
+        // This uses Stripe metadata to record the donation
+        const API_URL = "https://charitywebsite.onrender.com/api";
+        await fetch(`${API_URL}/confirm-payment`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            paymentIntentId: paymentIntent.id,
+          }),
+        });
 
         setMessage("Donation recorded successfully!");
         setTimeout(() => navigate("/success"), 2000);
@@ -76,7 +74,7 @@ function StripeCheckoutForm({ donationData }) {
 
         <div className="mb-6 p-4 bg-gray-50 rounded-lg">
           <p className="text-sm mb-2"><span className="font-semibold">Donation For:</span> {donationData.subject}</p>
-          <p className="text-sm mb-2"><span className="font-semibold">Amount:</span> ₹{donationData.price}</p>
+          <p className="text-sm mb-2"><span className="font-semibold">Amount:</span> PKR{donationData.price}</p>
           <p className="text-sm"><span className="font-semibold">Donor:</span> {donationData.fullName}</p>
         </div>
 
@@ -102,7 +100,7 @@ function StripeCheckoutForm({ donationData }) {
             disabled={!stripe || isLoading}
             className="w-full bg-[#493528] text-white py-3 rounded-lg hover:bg-[#3a2a1f] disabled:opacity-50 disabled:cursor-not-allowed font-medium"
           >
-            {isLoading ? "Processing..." : `Pay ₹${donationData.price}`}
+            {isLoading ? "Processing..." : `Pay PKR${donationData.price}`}
           </button>
         </form>
       </div>
@@ -125,12 +123,14 @@ export default function StripePaymentPage() {
   useEffect(() => {
     const createPaymentIntent = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/create-payment-intent`, {
+        // Use the same base URL as DonationApi.js to avoid CORS/routing issues
+        const API_URL = "https://charitywebsite.onrender.com/api";
+        const response = await fetch(`${API_URL}/create-payment-intent`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             amount: donationData.price * 100,
-            currency: "inr",
+            currency: "pkr",
             metadata: {
               subject: donationData.subject,
               email: donationData.email,
@@ -138,6 +138,10 @@ export default function StripePaymentPage() {
             },
           }),
         });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
         const data = await response.json();
         setClientSecret(data.clientSecret);

@@ -98,18 +98,23 @@ export const confirmPayment = asyncHandler(async (req, res) => {
 
 	if (paymentIntent.status === "succeeded") {
 		try {
+			// Build donation object - support both authenticated and anonymous users
+			const donationData = {
+				fullName: paymentIntent.metadata.fullName || "",
+				email: paymentIntent.metadata.email || "",
+				subject: paymentIntent.metadata.subject || "Donation",
+				message: paymentIntent.metadata.message || "",
+				price: Math.round(paymentIntent.amount || 0),
+				confirmation: "Confirmed",
+			};
+			
+			// Only add user if authenticated
 			if (req.user) {
-				const donation = new Donation({
-					fullName: paymentIntent.metadata.fullName || req.user.name || "",
-					email: paymentIntent.metadata.email || req.user.email || "",
-					subject: paymentIntent.metadata.subject || "Donation",
-					message: paymentIntent.metadata.message || "",
-					price: Math.round(paymentIntent.amount || 0),
-					user: req.user.id,
-					confirmation: "Confirmed",
-				});
-				await donation.save();
+				donationData.user = req.user.id;
 			}
+			
+			const donation = new Donation(donationData);
+			await donation.save();
 		} catch (err) {
 			console.error("Failed to record donation:", err);
 		}
