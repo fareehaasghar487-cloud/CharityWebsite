@@ -117,7 +117,7 @@ export const login = asyncHandler(async (req, res) => {
     .json({ message: "Login successful", user, isVerified: user.isVerified });
 });
 
-// Forget Password API
+// Forget Password API  
 export const forgetPassword = asyncHandler(async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });

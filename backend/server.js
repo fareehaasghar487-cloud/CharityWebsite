@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ["http://localhost:5173","https://charity-website-orpin.vercel.app"],
+    origin: ["http://localhost:5173"],
     credentials: true,
   })
 );
@@ -38,8 +38,8 @@ mongoose
 
 // Routes
 app.use(userRoutes);
-app.use("/api", campaignRoutes);
-app.use("/api",donationRoutes);
+app.use(campaignRoutes);
+app.use(donationRoutes);
 app.use(beneficiaryRoutes);
 app.use(charityRoutes);
 app.use(summaryRoute);
@@ -66,3 +66,6 @@ app.listen(PORT, () => console.log(`🚀 Server is running on port ${PORT}`));
 //mongodb+srv://fareehaasghar487_db_user:charity@cluster0.asnuo9t.mongodb.net
 
 //mongodb://localhost:27017
+
+
+// "https://charity-website-orpin.vercel.app"

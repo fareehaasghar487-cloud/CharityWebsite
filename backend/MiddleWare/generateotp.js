@@ -6,3 +6,4 @@ export const generateotp = (length = 6) => {
   }
   return otp;
 };
+;
